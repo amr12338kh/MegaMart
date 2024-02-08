@@ -39,6 +39,7 @@ const skip = (searchParams.skip || 0 ) / 10
           </WrapperTitle>
         </WrapperHeading>
         <WrapperContent>
+          <div data-orientation="horizontal" role="none" className="shrink-0 bg-border h-[1px] w-full my-2" />
           {!isDataEmpty ? (
             <div>
               <WrapperCards>

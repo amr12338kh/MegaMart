@@ -16,9 +16,7 @@ const page = () => {
                     About the project and the author of the project.
                 </p>
             </section>
-
-            <div data-orientation="horizontal" role="none" className="shrink-0 bg-border h-[1px] w-full my-4"></div>
-
+            <div data-orientation="horizontal" role="none" className="shrink-0 bg-border h-[1px] w-full my-4" />
             <section className="mdx">
                 <p
                     className="text-base leading-7 [&:not(:first-child)]:mt-5"
@@ -167,7 +165,6 @@ const page = () => {
                         </Link>
                     </li>
                 </ul>
-
                 <h2
                     className="mt-10 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0"
                 >
@@ -185,7 +182,6 @@ const page = () => {
                     </li>
                 </ul>
             </section>
-
         </article>
     </main>
   )

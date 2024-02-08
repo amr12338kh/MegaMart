@@ -22,6 +22,7 @@ export default function Loading() {
           </WrapperTitle>
         </WrapperHeading>
         <WrapperContent>
+          <div data-orientation="horizontal" role="none" className="shrink-0 bg-border h-[1px] w-full my-2" />
           <WrapperCards>
             {Array.from({ length: 10 }).map((_, i) => (
               <ProductCardSkeleton key={i} />
