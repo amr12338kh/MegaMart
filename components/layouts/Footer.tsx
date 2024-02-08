@@ -57,8 +57,7 @@ const Footer = () => {
                 <li>
                   <a
                     className="footerListClass"
-                    href="/https://ui.shadcn.com/" 
-                    rel="noopener noreferrer"
+                    href="https://ui.shadcn.com/" 
                     target="_blank"
                   >
                     shadcn/ui
@@ -67,8 +66,7 @@ const Footer = () => {
                 <li>
                   <a
                     className="footerListClass"
-                    href="/https://react-icons.github.io/react-icons/" 
-                    rel="noopener noreferrer"
+                    href="https://react-icons.github.io/react-icons/" 
                     target="_blank"
                   >
                     React Icons
@@ -77,8 +75,7 @@ const Footer = () => {
                 <li>
                   <a
                       className="footerListClass"
-                      href="/https://www.emailjs.com/" 
-                      rel="noopener noreferrer"
+                      href="https://www.emailjs.com/" 
                       target="_blank"
                     >
                       EmailJS
@@ -122,8 +119,7 @@ const Footer = () => {
                   <li>
                     <a
                       className="footerListClass"
-                      href="/https://www.instagram.com/amrrkhaled_9/" 
-                      rel="noopener noreferrer"
+                      href="https://www.instagram.com/amrrkhaled_9/" 
                       target="_blank"
                     >
                       Instagram
@@ -132,8 +128,7 @@ const Footer = () => {
                   <li>
                     <a
                       className="footerListClass"
-                      href="/https://github.com/amr12338kh" 
-                      rel="noopener noreferrer"
+                      href="https://github.com/amr12338kh" 
                       target="_blank"
                     >
                       GitHub
@@ -142,8 +137,7 @@ const Footer = () => {
                   <li>
                     <a
                       className="footerListClass" 
-                      href="/https://www.linkedin.com/in/amr-khaled-a411bb217/"
-                      rel="noopener noreferrer"
+                      href="https://www.linkedin.com/in/amr-khaled-a411bb217/"
                       target="_blank"
                     >
                       Linkedin
@@ -167,9 +161,8 @@ const Footer = () => {
             >
               Built by 
               <a 
-                href="/https://github.com/amr12338kh" 
+                href="https://portfolio-amrkh.vercel.app" 
                 className="text-gray-600 font-semibold "
-                rel="noopener noreferrer"
                 target="_blank"
               >
                 Amr Khaled.

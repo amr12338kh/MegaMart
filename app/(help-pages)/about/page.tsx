@@ -25,15 +25,17 @@ const page = () => {
                 >
                     This is an e-commerce store for training built with everything new in &nbsp;
                     <Link 
-                        href="/https://nextjs.org/"
+                        href="https://nextjs.org/"
                         className="font-medium underline underline-offset-4"
+                        target="_blank"
                     >
                         Next.js
                     </Link>
                     &nbsp; and I used &nbsp;
                     <Link 
-                        href="/https://tailwindcss.com/"
+                        href="https://tailwindcss.com/"
                         className="font-medium underline underline-offset-4"
+                        target="_blank"
                     >
                         Tailwind CSS
                     </Link>
@@ -50,7 +52,8 @@ const page = () => {
                     <li className="mt-2">
                         <Link 
                             className="font-medium underline underline-offset-4"
-                            href="/https://nextjs.org/"
+                            href="https://nextjs.org/"
+                            target="_blank"
                         >
                             Next.js
                         </Link>
@@ -58,7 +61,8 @@ const page = () => {
                     <li className="mt-2">
                         <Link 
                             className="font-medium underline underline-offset-4"
-                            href="/https://tailwindcss.com/"
+                            href="https://tailwindcss.com/"
+                            target="_blank"
                         >
                             Tailwind CSS
                         </Link>
@@ -66,7 +70,8 @@ const page = () => {
                     <li className="mt-2">
                         <Link 
                             className="font-medium underline underline-offset-4"
-                            href="/https://www.emailjs.com/"
+                            href="https://www.emailjs.com/"
+                            target="_blank"
                         >
                             emailJS
                         </Link>
@@ -74,7 +79,8 @@ const page = () => {
                     <li className="mt-2">
                         <Link 
                             className="font-medium underline underline-offset-4"
-                            href="/https://ui.shadcn.com/"
+                            href="https://ui.shadcn.com/"
+                            target="_blank"
                         >
                             shadcn/ui
                         </Link>
@@ -82,7 +88,8 @@ const page = () => {
                     <li className="mt-2">
                         <Link 
                             className="font-medium underline underline-offset-4"
-                            href="/https://react-icons.github.io/react-icons/"
+                            href="https://react-icons.github.io/react-icons/"
+                            target="_blank"
                         >
                             React Icons
                         </Link>
@@ -99,23 +106,26 @@ const page = () => {
                 >
                     Hello there! 👋 I&apos;m
                     <Link 
-                        href="/https://github.com/amr12338kh"
+                        href="https://github.com/amr12338kh"
                         className="font-medium underline underline-offset-4"
+                        target="_blank"
                     >
                         &nbsp;&apos;Amr&apos;&nbsp;
                     </Link>,
                     a passionate Front-End Web Developer with a specialization in
                     
                     <Link
-                        href="/https://nextjs.org/"
+                        href="https://nextjs.org/"
                         className="font-medium underline underline-offset-4"
+                        target="_blank"
                     >
                         &nbsp;Next.js&nbsp;
                     </Link>,
                     the cutting-edge 
                     <Link
-                        href="/https://react.dev/"
+                        href="https://react.dev/"
                         className="font-medium underline underline-offset-4"
+                        target="_blank"
                     >
                         &nbsp;React.js&nbsp;
                     </Link>
@@ -132,7 +142,8 @@ const page = () => {
                     <li className="mt-2">
                         <Link 
                             className="font-medium underline underline-offset-4"
-                            href="/https://www.instagram.com/amrrkhaled_9/"
+                            href="https://www.instagram.com/amrrkhaled_9/"
+                            target="_blank"
                         >
                             Instagram
                         </Link>
@@ -140,7 +151,8 @@ const page = () => {
                     <li className="mt-2">
                         <Link 
                             className="font-medium underline underline-offset-4"
-                            href="/https://github.com/amr12338kh"
+                            href="https://github.com/amr12338kh"
+                            target="_blank"
                         >
                             GitHub
                         </Link>
@@ -148,7 +160,8 @@ const page = () => {
                     <li className="mt-2">
                         <Link 
                             className="font-medium underline underline-offset-4"
-                            href="/https://www.linkedin.com/in/amr-khaled-a411bb217/"
+                            href="https://www.linkedin.com/in/amr-khaled-a411bb217/"
+                            target="_blank"
                         >
                             Linkedin
                         </Link>
@@ -164,9 +177,10 @@ const page = () => {
                     <li className="mt-2">
                         <Link 
                             className="font-medium underline underline-offset-4"
-                            href="/https://amr-portfolio-theta.vercel.app/"
+                            href="https://portfolio-amrkh.vercel.app"
+                            target="_blank"
                         >
-                            amr-portfolio-theta.vercel.app
+                            portfolio-amrkh.vercel.app
                         </Link>
                     </li>
                 </ul>
