@@ -1,0 +1,22 @@
+[
+    {
+        "title": "Smartphones",
+        "link": "/category/smartphones",
+        "image": "/phone.png"
+    },
+    {
+        "title": "Laptops",
+        "link": "/category/laptops",
+        "image": "/laptop.png"
+    },
+    {
+        "title": "Mens Shirts",
+        "link": "/category/mens-shirts",
+        "image": "/clothes.png"
+    },
+    {
+        "title": "Womens Watches",
+        "link": "/category/womens-watches",
+        "image": "/womens-watch.png"
+    }
+]
