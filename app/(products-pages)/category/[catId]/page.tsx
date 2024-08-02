@@ -1,64 +1,54 @@
-import { 
-    Wrapper, 
-    WrapperHeading, 
-    WrapperTitle, 
-    WrapperSubtitle, 
-    WrapperContent, 
-    WrapperCards 
-} from "@/components/Wrapper"
-import Card from "@/components/product/Card"
-import { categoriesData } from "@/lib/utils"
+import Card from "@/components/product/Card";
+import { categoriesData } from "@/lib/utils";
+import {
+  SectionContainer,
+  SectionHeading,
+  SectionContent,
+  SectionCards,
+} from "@/components/SectionContainer";
+import { Separator } from "@/components/ui/separator";
 
-export async function generateMetadata({ params }: { params: { catId: string } }) {
-
+export async function generateMetadata({
+  params,
+}: {
+  params: { catId: string };
+}) {
   return {
-    title: `${params.catId.replace("-", " ").charAt(0).toUpperCase()}${params.catId.replace("-", " ").slice(1)} - Tech Store`,
-    description: params.catId.replace("-", " ")
-  }
+    title: `${params.catId
+      .replace("-", " ")
+      .charAt(0)
+      .toUpperCase()}${params.catId.replace("-", " ").slice(1)} - Tech Store`,
+    description: params.catId.replace("-", " "),
+  };
 }
 
-const singleCategory = async (
-    { params }: { params: { catId: string } }, 
-) => {
-
-    
-  const products = await categoriesData(params.catId)
-  const isDataEmpty = !Array.isArray(products) || products.length < 1 || !products;
+const singleCategory = async ({ params }: { params: { catId: string } }) => {
+  const products = await categoriesData(params.catId);
+  const isDataEmpty =
+    !Array.isArray(products) || products.length < 1 || !products;
 
   return (
-    <main className=" container">
-      <Wrapper>
-        <WrapperHeading>
-          <WrapperTitle>
-            {params.catId.replace("-", " ")}
-            <WrapperSubtitle>Buy products from our stores</WrapperSubtitle>
-          </WrapperTitle>
-        </WrapperHeading>
-        <WrapperContent>
-          <div data-orientation="horizontal" role="none" className="shrink-0 bg-border h-[1px] w-full my-2" />
-          {!isDataEmpty ? (
-            <div>
-              <WrapperCards>
-                {products.sort().map(product => {
-                  return (
-                    <Card key={product.id} product={product} />
-                    )
-                })}
-              </WrapperCards>
-            </div>
-            ) : (
-              <div>
-                <h2 className="text-black text-xl font-bold">
-                  Oops!, no results
-                </h2>
-              </div>
-            )
-          } 
-        </WrapperContent>
-      </Wrapper>
-    </main>
-    
-  )
-}
+    <SectionContainer container>
+      <SectionHeading
+        title={params.catId.replace("-", " ")}
+        tagline="Buy products from our stores"
+      />
+      <SectionContent>
+        <Separator />
+        {!isDataEmpty ? (
+          <SectionCards>
+            {products.sort().map((product) => {
+              return <Card key={product.id} product={product} />;
+            })}
+          </SectionCards>
+        ) : (
+          <div>
+            <h2 className="text-black text-xl font-bold">Oops!, no results</h2>
+          </div>
+        )}
+      </SectionContent>
+    </SectionContainer>
+  );
+};
 
-export default singleCategory
+export default singleCategory;
