@@ -81,6 +81,7 @@ const CartItem = ({ product }: Props) => {
             type="number"
             className="w-[40px] h-8 border-x-0 shadow-none rounded-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
             value={getItemQuantity(product.id)}
+            readOnly
           />
           <Button
             variant="outline"

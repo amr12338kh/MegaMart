@@ -37,7 +37,7 @@ const AddToCartButton = ({
     });
   };
 
-  const handelRemoveFromCart = () => {
+  const handleRemoveFromCart = () => {
     removeFromCart(product.id);
     toast({
       title: "Item Removed Successfully",
@@ -46,7 +46,7 @@ const AddToCartButton = ({
 
   const quantity = getItemQuantity(product.id);
 
-  const handelDecreaseQuantity = () => {
+  const handleDecreaseQuantity = () => {
     decreaseQuantity(product.id);
     if (quantity === 1) {
       return toast({
@@ -79,20 +79,21 @@ const AddToCartButton = ({
         <Input
           type="number"
           className="w-[40px] h-9 border-x-0 shadow-none rounded-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-          defaultValue={getItemQuantity(product.id)}
+          value={quantity}
+          readOnly
         />
         <Button
           variant="outline"
           size="sm"
           className="rounded-l-none"
-          onClick={handelDecreaseQuantity}
+          onClick={handleDecreaseQuantity}
         >
           <FaMinus size={8} />
         </Button>
       </div>
       <div>
         {quantity > 1 && (
-          <Button variant="outline" size="sm" onClick={handelRemoveFromCart}>
+          <Button variant="outline" size="sm" onClick={handleRemoveFromCart}>
             <FaRegTrashCan size={13} />
           </Button>
         )}
