@@ -1,4 +1,4 @@
-import { ProductProps, SearchParamsProps } from "@/types";
+import { ProductProps } from "@/types";
 import Cart from "./Crat";
 import { getCartProducts } from "@/lib/utils";
 

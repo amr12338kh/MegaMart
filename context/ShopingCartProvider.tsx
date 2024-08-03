@@ -1,11 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   ShopingCartContextProps,
   CartItemProps,
   ProductProps,
 } from "@/types/index";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 const ShopingCartContext = createContext({} as ShopingCartContextProps);
 
@@ -18,7 +19,23 @@ export const ShopingCartProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
+  const { setItem, getItem } = useLocalStorage("cartItems");
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedItems = getItem();
+      if (storedItems) {
+        setCartItems(storedItems);
+      }
+    }
+  }, []); // Empty dependency array ensures this runs only once
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && cartItems.length > 0) {
+      setItem(cartItems);
+    }
+  }, [cartItems, setItem]);
 
   const cartQuantity = cartItems.reduce(
     (quantity, item) => item.quantity + quantity,
@@ -34,7 +51,6 @@ export const ShopingCartProvider = ({
       if (cartItems.find((item) => item.id === id) == null) {
         return [...cartItems, { id, quantity: 1 }];
       } else {
-        console.log("Increasing quantity", id);
         return cartItems.map((item) => {
           if (item.id === id) {
             return { ...item, quantity: item.quantity + 1 };
