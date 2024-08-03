@@ -1,82 +1,71 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Image from "next/image"
-import { 
-  FaChevronRight, 
-  FaChevronLeft, 
-  FaImage 
-} from "react-icons/fa6";
-import useEmblaCarousel from 'embla-carousel-react'
-import { EmblaOptionsType, EmblaCarouselType } from 'embla-carousel'
-
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import Image from "next/image";
+import { FaChevronRight, FaChevronLeft, FaImage } from "react-icons/fa6";
+import useEmblaCarousel from "embla-carousel-react";
+import { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { ProductProps } from "@/types";
-
 interface ProductImageCarouselProps
   extends React.HTMLAttributes<HTMLDivElement> {
-    product: ProductProps
-    options?: EmblaOptionsType
+  product: ProductProps;
+  options?: EmblaOptionsType;
 }
 
-const ProductImages =({ 
-  product, 
-  options, 
-  className, 
-  ...props 
-}: ProductImageCarouselProps 
-) => {
+const ProductImages = ({
+  product,
+  options,
+  className,
+  ...props
+}: ProductImageCarouselProps) => {
+  const images = [...product.images];
 
-  const images = [
-  product.thumbnail,
-  ...product.images,
-  ]
+  const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
-  const [emblaRef, emblaApi] = useEmblaCarousel(options)
-
-  const [prevBtnDisabled, setPrevBtnDisabled] = React.useState(true)
-  const [nextBtnDisabled, setNextBtnDisabled] = React.useState(true)
-  const [selectedIndex, setSelectedIndex] = React.useState(0)
+  const [prevBtnDisabled, setPrevBtnDisabled] = React.useState(true);
+  const [nextBtnDisabled, setNextBtnDisabled] = React.useState(true);
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
 
   const scrollPrev = React.useCallback(
     () => emblaApi && emblaApi.scrollPrev(),
     [emblaApi]
-  )
+  );
   const scrollNext = React.useCallback(
     () => emblaApi && emblaApi.scrollNext(),
     [emblaApi]
-  )
+  );
 
   const scrollTo = React.useCallback(
     (index: number) => emblaApi && emblaApi.scrollTo(index),
     [emblaApi]
-  )
+  );
 
   const handleKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLButtonElement>) => {
       if (event.key === "ArrowLeft") {
-        scrollPrev()
+        scrollPrev();
       } else if (event.key === "ArrowRight") {
-        scrollNext()
+        scrollNext();
       }
     },
     [scrollNext, scrollPrev]
-  )
+  );
 
   const onSelect = React.useCallback((emblaApi: EmblaCarouselType) => {
-    setSelectedIndex(emblaApi.selectedScrollSnap())
-    setPrevBtnDisabled(!emblaApi.canScrollPrev())
-    setNextBtnDisabled(!emblaApi.canScrollNext())
-  }, [])
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+    setPrevBtnDisabled(!emblaApi.canScrollPrev());
+    setNextBtnDisabled(!emblaApi.canScrollNext());
+  }, []);
 
   React.useEffect(() => {
-    if (!emblaApi) return
+    if (!emblaApi) return;
 
-    onSelect(emblaApi)
-    emblaApi.on("reInit", onSelect)
-    emblaApi.on("select", onSelect)
-  }, [emblaApi, onSelect])
+    onSelect(emblaApi);
+    emblaApi.on("reInit", onSelect);
+    emblaApi.on("select", onSelect);
+  }, [emblaApi, onSelect]);
 
   if (images.length === 0) {
     return (
@@ -86,12 +75,9 @@ const ProductImages =({
         aria-roledescription="placeholder"
         className="flex aspect-square h-full w-full flex-1 items-center justify-center bg-secondary"
       >
-        <FaImage
-          className="h-9 w-9 text-muted-foreground"
-          aria-hidden="true"
-        />
+        <FaImage className="h-9 w-9 text-muted-foreground" aria-hidden="true" />
       </div>
-    )
+    );
   }
 
   return (
@@ -107,22 +93,22 @@ const ProductImages =({
             backfaceVisibility: "hidden",
           }}
         >
-          {images.map((image, index) => (
+          {images.map((image, i) => (
             <div
               className="relative aspect-square min-w-0 flex-[0_0_100%] pl-4"
-              key={index}
+              key={i}
             >
               <Image
-                aria-label={`Slide ${index + 1} of ${images.length}`}
+                aria-label={`Slide ${i + 1} of ${images.length}`}
                 role="group"
-                key={index}
+                key={i}
                 aria-roledescription="slide"
                 src={image}
-                alt={image}
+                alt={`Image ${i + 1}`}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover"
-                priority={index === 0}
+                priority={i === 0 || i === 1}
               />
             </div>
           ))}
@@ -158,7 +144,7 @@ const ProductImages =({
               <div className="absolute inset-0 z-10 bg-zinc-950/20 group-hover:bg-zinc-950/4" />
               <Image
                 src={image}
-                alt={image}
+                alt={`Image ${i + 1}`}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 fill
                 className="rounded"
@@ -184,7 +170,7 @@ const ProductImages =({
         </div>
       ) : null}
     </div>
-  )
-}
+  );
+};
 
-export default ProductImages
+export default ProductImages;
