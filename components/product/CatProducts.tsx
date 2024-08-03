@@ -8,7 +8,7 @@ import {
 } from "@/components/SectionContainer";
 
 const CatProducts = async ({ productCat, productId }: CatProductsProps) => {
-  const products = await getCatProducts(productCat, { limit: 5 });
+  const products = await getCatProducts(productCat, { limit: 4 });
 
   return (
     <SectionContainer>
