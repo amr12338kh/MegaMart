@@ -8,7 +8,10 @@ import {
 } from "@/components/SectionContainer";
 
 const CatProducts = async ({ productCat, productId }: CatProductsProps) => {
-  const products = await getCatProducts(productCat, { limit: 4 });
+  const products = await getCatProducts(productCat, { limit: 5 });
+  const filteredProducts = products
+    .filter((product) => product.id !== productId)
+    .slice(0, 4);
 
   return (
     <SectionContainer>
@@ -19,11 +22,9 @@ const CatProducts = async ({ productCat, productId }: CatProductsProps) => {
         isOne
       />
       <SectionCards>
-        {products.map((product) => {
-          if (product.id !== productId) {
-            return <Card key={product.id} product={product} />;
-          }
-        })}
+        {filteredProducts.map((product) => (
+          <Card key={product.id} product={product} />
+        ))}
       </SectionCards>
     </SectionContainer>
   );
