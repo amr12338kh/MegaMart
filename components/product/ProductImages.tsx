@@ -109,6 +109,7 @@ const ProductImages = ({
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover"
                 priority={i === 0 || i === 1}
+                quality={75}
               />
             </div>
           ))}
@@ -148,6 +149,7 @@ const ProductImages = ({
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 fill
                 className="rounded"
+                quality={75}
               />
               <span className="sr-only">
                 Slide {i + 1} of {images.length}
