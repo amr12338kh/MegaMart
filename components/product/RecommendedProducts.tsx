@@ -19,6 +19,7 @@ const RecommendedProducts = async ({ recNumber }: Props) => {
         title="Recommended"
         linkText="View all"
         link="/products"
+        tagline="Suggestions Based on Your Interests"
         isOne
       />
       <SectionCards>

@@ -1,28 +1,25 @@
 import Card from "./Card";
-import { bestSellerProducts } from "@/lib/utils";
 import {
   SectionContainer,
   SectionHeading,
   SectionCards,
 } from "@/components/SectionContainer";
+import { getLatestProducts } from "@/lib/utils";
 
-const BestSellers = async () => {
-  const products = await bestSellerProducts({
-    limit: 4,
-    skip: 8,
-  });
+const LatestProducts = async () => {
+  const latestProducts = await getLatestProducts();
 
   return (
     <SectionContainer>
       <SectionHeading
-        title="Best Sellers"
-        tagline="Discover Our Most Popular Picks"
+        title="new to tech store"
         linkText="View all"
-        link="/products"
+        tagline="New Arrivals You’ll Love"
+        link={`/products`}
         isOne
       />
       <SectionCards>
-        {products.map((product) => (
+        {latestProducts.map((product) => (
           <Card key={product.id} product={product} />
         ))}
       </SectionCards>
@@ -30,4 +27,4 @@ const BestSellers = async () => {
   );
 };
 
-export default BestSellers;
+export default LatestProducts;
