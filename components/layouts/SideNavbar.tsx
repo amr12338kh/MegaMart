@@ -1,139 +1,88 @@
-"use client"
+"use client";
 
 import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from "@/components/ui/sheet"
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { FaAlignLeft } from "react-icons/fa";
 import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-  } from "@/components/ui/accordion"
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import Link from "next/link";
-import { ShoppingBasket } from 'lucide-react';
-import { 
-    lobby, 
-    collections,
-    topProducts,
-    help,
+import { ShoppingBasket } from "lucide-react";
+import {
+  lobby,
+  collections,
+  topProducts,
+  help,
+  headerLinks,
 } from "@/constants";
 import { useState } from "react";
 import SearchBar from "../SearchBar";
-  
+import { cn } from "@/lib/utils";
 
-const SideNavbar = () => {
-
-    const [isOpen, setIsOpen] = useState(false)
+const SideNavbar = ({ className }: { className?: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>
-        <FaAlignLeft size={25} />
-      </SheetTrigger>
-      <SheetContent side="left" className="w-full sm:w-[540px] items-start">
-        <SheetHeader className=" text-start">
-          <SheetTitle>
-            <Link 
-                href="/"
-                onClick={() => setIsOpen(false)}
-            >
-              <div className="flex w-fit space-x-2 items-center">
-                <ShoppingBasket />
-                <h2 className="scroll-m-20 text-xl font-semibold tracking-tight">Tech Store</h2>
-              </div>
-            </Link>
-          </SheetTitle>
-          <SheetDescription>
-            <div
-                className="my-2" 
-                onSubmit={() => setIsOpen(false)}
-            >
+    <aside className={cn(" cursor-pointer", className)}>
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetTrigger asChild>
+          <FaAlignLeft size={25} />
+        </SheetTrigger>
+        <SheetContent side="left" className="w-full sm:w-[540px] items-start">
+          <SheetHeader className=" text-start">
+            <SheetTitle>
+              <Link href="/" onClick={() => setIsOpen(false)}>
+                <div className="flex w-fit space-x-2 items-center">
+                  <ShoppingBasket />
+                  <h2 className="scroll-m-20 text-xl font-semibold tracking-tight">
+                    Tech Store
+                  </h2>
+                </div>
+              </Link>
+            </SheetTitle>
+            <SheetDescription>
+              <div className="my-2 sm:hidden" onSubmit={() => setIsOpen(false)}>
                 <SearchBar />
-            </div>
-            <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                    <AccordionTrigger className="scroll-m-20 text-base font-semibold text-primary tracking-tight">Lobby</AccordionTrigger>
+              </div>
+              {headerLinks.map(({ title, links }, i) => (
+                <Accordion type="single" collapsible key={i}>
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger className="scroll-m-20 text-base font-semibold text-primary tracking-tight">
+                      {title}
+                    </AccordionTrigger>
                     <AccordionContent className=" text-muted-foreground">
-                    <ul className="ml-3 flex flex-col gap-3">
-                        {lobby.map(item => (
-                            <Link
-                                key={item.title} 
-                                href={item.link}
-                                onClick={() => setIsOpen(false)}
-                            >
-                                <li className=" hover:text-primary text-sm font-medium leading-none">{item.title}</li>
-                            </Link>
+                      <ul className="ml-3 flex flex-col gap-3">
+                        {links.map(({ title, link }) => (
+                          <Link
+                            key={title}
+                            href={link}
+                            onClick={() => setIsOpen(false)}
+                          >
+                            <li className=" hover:text-primary text-sm font-medium leading-none">
+                              {title}
+                            </li>
+                          </Link>
                         ))}
-                    </ul>
+                      </ul>
                     </AccordionContent>
-                </AccordionItem>
-            </Accordion>
-            <Accordion type="single" collapsible>
-                <AccordionItem value="item-2">
-                    <AccordionTrigger className="scroll-m-20 text-base font-semibold text-primary tracking-tight">Collections</AccordionTrigger>
-                    <AccordionContent className=" text-muted-foreground">
-                    <ul className="ml-3 flex flex-col gap-3">
-                        {collections.map(collection => (
-                            <Link
-                                key={collection.title} 
-                                href={collection.link}
-                                onClick={() => setIsOpen(false)}
-                            >
-                                <li className=" hover:text-primary text-sm font-medium leading-none">{collection.title}</li>
-                            </Link>
-                        ))}
-                    </ul>
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
-            <Accordion type="single" collapsible>
-                <AccordionItem value="item-3">
-                    <AccordionTrigger className="scroll-m-20 text-base font-semibold text-primary tracking-tight">Top Products</AccordionTrigger>
-                    <AccordionContent className=" text-muted-foreground">
-                    <ul className="ml-3 flex flex-col gap-3">
-                        {topProducts.map(product => (
-                            <Link
-                                key={product.title} 
-                                href={product.link}
-                                onClick={() => setIsOpen(false)}
-                            >
-                                <li className=" hover:text-primary text-sm font-medium leading-none">{product.title}</li>
-                            </Link>
-                        ))}
-                    </ul>
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
-            <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                    <AccordionTrigger className="scroll-m-20 text-base font-semibold text-primary tracking-tight">Help</AccordionTrigger>
-                    <AccordionContent className=" text-muted-foreground">
-                    <ul className="ml-3 flex flex-col gap-3">
-                        {help.map(item => (
-                            <Link
-                                key={item.title} 
-                                href={item.link}
-                                onClick={() => setIsOpen(false)}
-                            >
-                                <li className=" hover:text-primary text-sm font-medium leading-none">{item.title}</li>
-                            </Link>
-                        ))}
-                    </ul>
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
-          </SheetDescription>
-        </SheetHeader>
-      </SheetContent>
-    </Sheet>
+                  </AccordionItem>
+                </Accordion>
+              ))}
+            </SheetDescription>
+          </SheetHeader>
+        </SheetContent>
+      </Sheet>
+    </aside>
+  );
+};
 
-  )
-}
-
-export default SideNavbar
+export default SideNavbar;
