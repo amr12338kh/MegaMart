@@ -44,7 +44,11 @@ const Header = () => {
                     {title}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid gap-3 p-4 w-[600px] grid-cols-[.75fr_1fr]">
+                    <ul
+                      className={`grid gap-3 p-4 ${
+                        i === 0 ? "w-[500px]" : "w-[600px]"
+                      } grid-cols-[.75fr_1fr]`}
+                    >
                       {i === 0 && (
                         <li className="row-span-3">
                           <NavigationMenuLink asChild>

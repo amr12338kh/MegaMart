@@ -1,34 +1,57 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { FilterProps, ProductProps } from "@/types";
+import axios, { AxiosError } from "axios";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const getData = async (url: URL, cacheTime?: number) => {
-  const options: RequestInit = {
-    next: {
-      revalidate: cacheTime || 60 * 60 * 24,
-    },
-  };
+export function truncate(str: string, length: number) {
+  return str.length > length ? `${str.substring(0, length)}...` : str;
+}
 
-  const res = await fetch(url.toString(), options);
-  const data = await res.json();
-
-  return data;
+export const getData = async (url: string, cacheTime?: number) => {
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        "Cache-Control": `max-age=${cacheTime || 60 * 60 * 24}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError;
+      console.error(`Error fetching data: ${axiosError.message}`);
+      throw new Error(`Failed to fetch data: ${axiosError.message}`);
+    } else {
+      console.error(`Unexpected error: ${error}`);
+      throw new Error("An unexpected error occurred");
+    }
+  }
 };
 
 export const productsData = async (
   filters: FilterProps
 ): Promise<ProductProps[]> => {
   const { limit, skip } = filters;
+  const url = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;
+  try {
+    const data = await getData(url);
+    return data.products as ProductProps[];
+  } catch (error) {
+    console.error(`Error fetching products: ${error}`);
+    throw error;
+  }
+};
 
-  const url = new URL(
-    `https://dummyjson.com/products?limit=${limit}&skip=${skip}`
-  );
-  const data = await getData(url);
-  return data.products as ProductProps[];
+export const updateSearchParams = (type: string, value: string) => {
+  const searchParams = new URLSearchParams(window.location.search);
+
+  searchParams.set(type, value);
+  const newPathname = `${window.location.pathname}?${searchParams.toString()}`;
+
+  return newPathname;
 };
 
 export const getCatProducts = async (
@@ -36,32 +59,41 @@ export const getCatProducts = async (
   filters: FilterProps
 ): Promise<ProductProps[]> => {
   const { limit } = filters;
-
-  const url = new URL(
-    `https://dummyjson.com/products/category/${cat}?limit=${limit}`
-  );
-  const data = await getData(url);
-  return data.products as ProductProps[];
+  const url = `https://dummyjson.com/products/category/${cat}?limit=${limit}`;
+  try {
+    const data = await getData(url);
+    return data.products as ProductProps[];
+  } catch (error) {
+    console.error(`Error fetching category products: ${error}`);
+    throw error;
+  }
 };
 
 export const bestSellerProducts = async (
   filters: FilterProps
 ): Promise<ProductProps[]> => {
   const { limit, skip } = filters;
-
-  const url = new URL(
-    `https://dummyjson.com/products?limit=${limit}&skip=${skip}`
-  );
-  const data = await getData(url);
-  return data.products as ProductProps[];
+  const url = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;
+  try {
+    const data = await getData(url);
+    return data.products as ProductProps[];
+  } catch (error) {
+    console.error(`Error fetching best seller products: ${error}`);
+    throw error;
+  }
 };
 
 export const singleProductData = async (
   params: string
 ): Promise<ProductProps> => {
-  const url = new URL(`https://dummyjson.com/products/${params}`);
-  const data = await getData(url);
-  return data as ProductProps;
+  const url = `https://dummyjson.com/products/${params}`;
+  try {
+    const data = await getData(url);
+    return data as ProductProps;
+  } catch (error) {
+    console.error(`Error fetching single product: ${error}`);
+    throw error;
+  }
 };
 
 export const getRecommendedProducts = async (recNumber: number) => {
@@ -75,63 +107,73 @@ export const getRecommendedProducts = async (recNumber: number) => {
   function getRandomNumber(): number {
     let min = 1;
     let max = 100;
-    let num = Math.floor(Math.random() * (max - min + 1)) + min;
-    return num;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  for (let i = 1; i <= recNumber; i++) {
-    let finalNumber: number;
-    do {
-      finalNumber = getRandomNumber();
-    } while (fetchedNumbers.has(finalNumber));
-    fetchedNumbers.add(finalNumber);
-    const url = new URL(`https://dummyjson.com/products/${finalNumber}`);
-    const data = await getData(url);
-    const product: ProductProps = await data;
-    recommended.push(product);
+  try {
+    for (let i = 1; i <= recNumber; i++) {
+      let finalNumber: number;
+      do {
+        finalNumber = getRandomNumber();
+      } while (fetchedNumbers.has(finalNumber));
+      fetchedNumbers.add(finalNumber);
+      const url = `https://dummyjson.com/products/${finalNumber}`;
+      const data = await getData(url);
+      recommended.push(data);
+    }
+    return recommended;
+  } catch (error) {
+    console.error(`Error fetching recommended products: ${error}`);
+    throw error;
   }
-
-  return recommended;
 };
-
-// Update the search
-export const updateSearchParams = (type: string, value: string) => {
-  // Get the current url
-  const searchParams = new URLSearchParams(window.location.search);
-
-  // Set the new search parameter
-  searchParams.set(type, value);
-
-  // Set the new search parameter
-  const newPathname = `${window.location.pathname}?${searchParams.toString()}`;
-
-  return newPathname;
-};
-
-export function truncate(str: string, length: number) {
-  return str.length > length ? `${str.substring(0, length)}...` : str;
-}
 
 export const categoriesData = async (params: string) => {
-  const url = new URL(`https://dummyjson.com/products/category/${params}`);
-  const data = await getData(url);
-
-  return data.products as ProductProps[];
+  const url = `https://dummyjson.com/products/category/${params}`;
+  try {
+    const data = await getData(url);
+    return data.products as ProductProps[];
+  } catch (error) {
+    console.error(`Error fetching categories data: ${error}`);
+    throw error;
+  }
 };
 
 export const getCartProducts = async (
   filters: FilterProps
 ): Promise<ProductProps[]> => {
   const { limit } = filters;
-
-  const url = new URL(`https://dummyjson.com/products?limit=${limit}`);
-  const data = await getData(url);
-  return data.products as ProductProps[];
+  const url = `https://dummyjson.com/products?limit=${limit}`;
+  try {
+    const data = await getData(url);
+    return data.products as ProductProps[];
+  } catch (error) {
+    console.error(`Error fetching cart products: ${error}`);
+    throw error;
+  }
 };
 
 export const getSearchedProducts = async (term: string) => {
-  const url = new URL(`https://dummyjson.com/products/search?q=${term}`);
-  const data = await getData(url);
+  const url = `https://dummyjson.com/products/search?q=${term}`;
+  try {
+    const data = await getData(url);
+    return data.products as ProductProps[];
+  } catch (error) {
+    console.error(`Error searching products: ${error}`);
+    throw error;
+  }
+};
 
-  return data.products as ProductProps[];
+export const getLatestProducts = async (): Promise<ProductProps[]> => {
+  const url = `https://dummyjson.com/products`;
+  try {
+    const data = await getData(url);
+    const latestProducts = data.products
+      .sort((a: ProductProps, b: ProductProps) => b.id - a.id)
+      .slice(0, 4);
+    return latestProducts as ProductProps[];
+  } catch (error) {
+    console.error(`Error fetching latest products: ${error}`);
+    throw error;
+  }
 };

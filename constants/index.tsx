@@ -55,33 +55,6 @@ export const collections = [
   },
 ];
 
-export const topProducts = [
-  {
-    title: "Iphone X",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo ullam beatae aliquid eaque consectetur. Repellendus, dolorem libero! Molestiae eaque pariatur nisi repellat ipsa iste illum, animi suscipit possimus cum dignissimos?",
-    link: "/product/2",
-  },
-  {
-    title: "HP Pavilion 15-DK1056WM",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo ullam beatae aliquid eaque consectetur. Repellendus, dolorem libero! Molestiae eaque pariatur nisi repellat ipsa iste illum, animi suscipit possimus cum dignissimos?",
-    link: "/product/10",
-  },
-  {
-    title: "Huawei P30",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo ullam beatae aliquid eaque consectetur. Repellendus, dolorem libero! Molestiae eaque pariatur nisi repellat ipsa iste illum, animi suscipit possimus cum dignissimos?",
-    link: "/product/5",
-  },
-  {
-    title: "Hyaluronic Acid Serum",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo ullam beatae aliquid eaque consectetur. Repellendus, dolorem libero! Molestiae eaque pariatur nisi repellat ipsa iste illum, animi suscipit possimus cum dignissimos?",
-    link: "/product/16",
-  },
-];
-
 export const help = [
   {
     title: "About",
@@ -138,10 +111,6 @@ export const headerLinks = [
   {
     title: "Collections",
     links: collections,
-  },
-  {
-    title: "Top Products",
-    links: topProducts,
   },
   {
     title: "Help",
