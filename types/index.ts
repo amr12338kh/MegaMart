@@ -2,15 +2,42 @@ export interface ProductProps {
   id: number;
   title: string;
   description: string;
+  category: string;
   price: number;
   discountPercentage: number;
   rating: number;
   stock: number;
+  tags: string[];
   brand: string;
-  category: string;
+  sku: string;
+  weight: number;
+  dimensions: {
+    width: number;
+    height: number;
+    depth: number;
+  };
+  warrantyInformation: string;
+  shippingInformation: string;
+  availabilityStatus: string;
+  reviews: [
+    {
+      rating: number;
+      comment: string;
+      date: string;
+      reviewerName: string;
+      reviewerEmail: string;
+    }
+  ];
+  returnPolicy: string;
+  minimumOrderQuantity: number;
+  meta: {
+    createdAt: string;
+    updatedAt: string;
+    barcode: string;
+    qrCode: string;
+  };
   thumbnail: string;
   images: [string, string, string, string];
-  fdprocessedid: string;
 }
 
 export interface FilterProps {
@@ -67,4 +94,12 @@ export interface SectionContainerProps {
   title?: string;
   tagline?: string;
   className?: string;
+}
+
+export interface ReviewsProps {
+  reviewerName: string;
+  reviewerEmail: string;
+  comment: string;
+  date: string;
+  rating: number;
 }

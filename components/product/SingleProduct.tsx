@@ -18,6 +18,7 @@ import {
 import { Breadcrumbs } from "../pagers/Breadcrumbs";
 import AddToCartButton from "../AddToCartButton";
 import BuyButton from "../BuyButton";
+import RatingStars from "../RatingStars";
 
 interface Props {
   product: ProductProps;
@@ -76,14 +77,7 @@ const SingleProduct = ({ product }: Props) => {
             <p className="text-base text-muted-foreground">Out of stock</p>
           )}
           <div className="flex items-center justify-between">
-            <HoverCard>
-              <HoverCardTrigger>
-                <p className="flex items-center space-x-1 text-yellow-400">
-                  {ratingStars}
-                </p>
-              </HoverCardTrigger>
-              <HoverCardContent>Rating: {product.rating}</HoverCardContent>
-            </HoverCard>
+            <RatingStars rating={product.rating} />
           </div>
           <div className="flex gap-2 my-6">
             {product.stock > 0 ? (
@@ -95,8 +89,8 @@ const SingleProduct = ({ product }: Props) => {
               <Button
                 variant="outline"
                 size="sm"
-                // disabled
-                className=" cursor-not-allowed"
+                disabled
+                className="cursor-not-allowed"
               >
                 Out of stock
               </Button>

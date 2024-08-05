@@ -164,16 +164,36 @@ export const getSearchedProducts = async (term: string) => {
   }
 };
 
-export const getLatestProducts = async (): Promise<ProductProps[]> => {
-  const url = `https://dummyjson.com/products`;
-  try {
-    const data = await getData(url);
-    const latestProducts = data.products
-      .sort((a: ProductProps, b: ProductProps) => b.id - a.id)
-      .slice(0, 4);
-    return latestProducts as ProductProps[];
-  } catch (error) {
-    console.error(`Error fetching latest products: ${error}`);
-    throw error;
+export const calculateDateDifference = (date: string): string => {
+  const givenDate: Date = new Date(date);
+  const currentDate: Date = new Date();
+
+  const diffInMilliseconds: number =
+    currentDate.getTime() - givenDate.getTime();
+  const diffInSeconds: number = Math.floor(diffInMilliseconds / 1000);
+  const diffInMinutes: number = Math.floor(diffInMilliseconds / (1000 * 60));
+  const diffInHours: number = Math.floor(diffInMilliseconds / (1000 * 60 * 60));
+  const diffInDays: number = Math.floor(
+    diffInMilliseconds / (1000 * 60 * 60 * 24)
+  );
+
+  const diffInMonths: number =
+    (currentDate.getFullYear() - givenDate.getFullYear()) * 12 +
+    (currentDate.getMonth() - givenDate.getMonth());
+  const diffInYears: number =
+    currentDate.getFullYear() - givenDate.getFullYear();
+
+  if (diffInSeconds < 60) {
+    return "just now";
+  } else if (diffInMinutes < 60) {
+    return `${diffInMinutes} minute${diffInMinutes > 1 ? "s" : ""}`;
+  } else if (diffInHours < 24) {
+    return `${diffInHours} hour${diffInHours > 1 ? "s" : ""}`;
+  } else if (diffInYears > 0) {
+    return `${diffInYears} year${diffInYears > 1 ? "s" : ""}`;
+  } else if (diffInMonths > 0) {
+    return `${diffInMonths} month${diffInMonths > 1 ? "s" : ""}`;
+  } else {
+    return `${diffInDays} day${diffInDays > 1 ? "s" : ""}`;
   }
 };
