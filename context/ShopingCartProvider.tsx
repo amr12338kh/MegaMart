@@ -19,7 +19,7 @@ export const ShopingCartProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { setItem, getItem } = useLocalStorage("cartItems");
+  const { setItem, getItem, removeItem } = useLocalStorage("cartItems");
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
 
   useEffect(() => {
@@ -65,6 +65,7 @@ export const ShopingCartProvider = ({
   const decreaseQuantity = (id: number) => {
     setCartItems((cartItems) => {
       if (cartItems.find((item) => item.id === id)?.quantity === 1) {
+        removeItem();
         return cartItems.filter((item) => item.id !== id);
       } else {
         return cartItems.map((item) => {
@@ -80,6 +81,7 @@ export const ShopingCartProvider = ({
 
   const removeFromCart = (id: number) => {
     setCartItems((cartItems) => {
+      removeItem();
       return cartItems.filter((item) => item.id !== id);
     });
   };
