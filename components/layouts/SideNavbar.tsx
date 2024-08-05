@@ -17,13 +17,7 @@ import {
 } from "@/components/ui/accordion";
 import Link from "next/link";
 import { ShoppingBasket } from "lucide-react";
-import {
-  lobby,
-  collections,
-  topProducts,
-  help,
-  headerLinks,
-} from "@/constants";
+import { headerLinks } from "@/constants";
 import { useState } from "react";
 import SearchBar from "../SearchBar";
 import { cn } from "@/lib/utils";
@@ -44,7 +38,7 @@ const SideNavbar = ({ className }: { className?: string }) => {
                 <div className="flex w-fit space-x-2 items-center">
                   <ShoppingBasket />
                   <h2 className="scroll-m-20 text-xl font-semibold tracking-tight">
-                    Tech Store
+                    MegaMart
                   </h2>
                 </div>
               </Link>

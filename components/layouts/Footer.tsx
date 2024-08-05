@@ -13,7 +13,7 @@ const Footer = () => {
         <div className="flex flex-col gap-10 lg:flex-row lg:gap-20">
           <Link className="flex w-[200px] flex-col justify-end" href="/">
             <ShoppingBasket className="h-6 w-6" aria-hidden="true" />
-            <div className="mb-2 mt-4 text-lg font-medium">Tech Store</div>
+            <div className="mb-2 mt-4 text-lg font-medium">MegaMart</div>
             <p className="text-sm leading-tight text-muted-foreground">
               An E-commerce website for training built with everything new in
               Next.js
@@ -42,7 +42,7 @@ const Footer = () => {
         </div>
         <div className="flex flex-col justify-center items-center mt-3">
           <p className="text-gray-400 text-sm">
-            ©{year} Tech Store, Inc, All Rights Reserved.
+            ©{year} MegaMart, Inc, All Rights Reserved.
           </p>
           <p className="text-gray-400 text-sm">amrkhaled12338@gmail.com</p>
 

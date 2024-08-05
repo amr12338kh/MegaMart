@@ -12,7 +12,7 @@ const LatestProducts = async () => {
   return (
     <SectionContainer>
       <SectionHeading
-        title="new to tech store"
+        title="new to MegaMart"
         linkText="View all"
         tagline="New Arrivals You’ll Love"
         link={`/products`}

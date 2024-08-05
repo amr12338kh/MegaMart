@@ -31,7 +31,7 @@ const Header = () => {
             <div className="flex w-fit space-x-2 items-center">
               <ShoppingBasket />
               <h2 className="scroll-m-20 text-xl font-semibold tracking-tight">
-                Tech Store
+                MegaMart
               </h2>
             </div>
           </Link>
