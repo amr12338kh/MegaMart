@@ -1,5 +1,3 @@
-"use client";
-
 import SingleProductSkeleton from "@/components/skeletons/SingleProductSkeleton";
 import LoadingProducts from "@/components/skeletons/LoadingProducts";
 

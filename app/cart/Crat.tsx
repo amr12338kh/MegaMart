@@ -6,6 +6,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import CartItem from "./CartItem";
+import { Separator } from "@/components/ui/separator";
 
 interface Props {
   products: ProductProps[];
@@ -28,11 +29,7 @@ const Crat = ({ products }: Props) => {
             product.id === item.id && (
               <>
                 <CartItem key={product.id} product={product} />
-                <div
-                  data-orientation="horizontal"
-                  role="none"
-                  className="shrink-0 bg-border h-[1px] w-full my-1"
-                ></div>
+                <Separator />
               </>
             )
         )
@@ -44,11 +41,7 @@ const Crat = ({ products }: Props) => {
           </Button>
         </Link>
       </div>
-      <div
-        data-orientation="horizontal"
-        role="none"
-        className="shrink-0 bg-border h-[1px] w-full my-4"
-      ></div>
+      <Separator className="my-4" />
       <div className="w-full">
         <div className="flex justify-between text-muted-foreground">
           <p>Subtotal:</p>
@@ -62,11 +55,7 @@ const Crat = ({ products }: Props) => {
           <p>Tax:</p>
           <p>${formatPrice(Tax)}</p>
         </div>
-        <div
-          data-orientation="horizontal"
-          role="none"
-          className="shrink-0 bg-border h-[1px] w-full my-4"
-        ></div>
+        <Separator className="my-4" />
         <div className="flex justify-between">
           <p className="scroll-m-20 font-semibold tracking-tight">Total:</p>
           <p className="scroll-m-20 font-semibold tracking-tight">
