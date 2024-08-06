@@ -61,7 +61,7 @@ const Header = () => {
                                 aria-hidden="true"
                               />
                               <div className="mb-2 mt-4 text-lg font-medium">
-                                Tech Store
+                                MegaMart
                               </div>
                               <p className="text-sm leading-tight text-muted-foreground">
                                 An E-commerce website for training built with
