@@ -178,6 +178,17 @@ export const getLatestProducts = async (): Promise<ProductProps[]> => {
   }
 };
 
+export const getProductsBrands = async (): Promise<ProductProps[]> => {
+  const url = `https://dummyjson.com/products?limit=10000`;
+  try {
+    const data = await getData(url);
+    return data.products as ProductProps[];
+  } catch (error) {
+    console.error(`Error fetching products: ${error}`);
+    throw error;
+  }
+};
+
 export const calculateDateDifference = (date: string): string => {
   const givenDate: Date = new Date(date);
   const currentDate: Date = new Date();

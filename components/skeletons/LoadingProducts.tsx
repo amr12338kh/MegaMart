@@ -37,7 +37,7 @@ const LoadingProducts = ({
       <SectionHeading
         isOne={isOne}
         title={<Skeleton className="h-6 w-40 sm:h-8 sm:w-60" />}
-        tagline={tagline ? <Skeleton className="h-4 w-60" /> : ""}
+        tagline={tagline ? <Skeleton className="h-4 w-60 sm:w-80 " /> : ""}
       />
       <SectionContent>
         {separator && <Separator />}

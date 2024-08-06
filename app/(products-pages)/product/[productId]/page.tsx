@@ -5,6 +5,7 @@ import CatProducts from "@/components/product/CatProducts";
 import { notFound } from "next/navigation";
 import Reviews from "@/components/product/Reviews";
 import { Separator } from "@/components/ui/separator";
+import Loading from "./loading";
 
 export async function generateMetadata({
   params,
@@ -14,7 +15,7 @@ export async function generateMetadata({
   const product = await singleProductData(params.productId);
 
   return {
-    title: `${product.title} - Tech Store`,
+    title: `${product.title} - MegaMart`,
     description: product.description,
   };
 }

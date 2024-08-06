@@ -12,7 +12,7 @@ import { Separator } from "@/components/ui/separator";
 
 export async function generateMetadata() {
   return {
-    title: `All Products - Tech Store`,
+    title: `All Products - MegaMart`,
     description: "Tech Store all products page",
   };
 }

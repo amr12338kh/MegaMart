@@ -17,7 +17,7 @@ export async function generateMetadata({
     title: `${params.catId
       .replace("-", " ")
       .charAt(0)
-      .toUpperCase()}${params.catId.replace("-", " ").slice(1)} - Tech Store`,
+      .toUpperCase()}${params.catId.replace("-", " ").slice(1)} - MegaMart`,
     description: params.catId.replace("-", " "),
   };
 }
