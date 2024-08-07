@@ -8,10 +8,10 @@ const loading = () => {
         <SingleProductSkeleton />
       </section>
       <section>
-        <LoadingProducts arrLength={4} isOne />
+        <LoadingProducts tagline arrLength={4} isOne />
       </section>
       <section>
-        <LoadingProducts arrLength={4} isOne />
+        <LoadingProducts tagline arrLength={4} isOne />
       </section>
     </main>
   );

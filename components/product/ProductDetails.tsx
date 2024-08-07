@@ -21,8 +21,8 @@ interface Props {
 
 const ProductDetails = ({ product }: Props) => {
   const { title, price, category, brand, rating, stock } = product;
-  const cat = category.split("-").join(" ");
-  const brandName = brand?.split(" ").join("-");
+  const cat = category.replace("-", " ");
+  const brandName = brand?.replace(" ", "-");
 
   return (
     <div className="flex w-full flex-col gap-4 md:w-1/2 mt-4">
@@ -35,7 +35,7 @@ const ProductDetails = ({ product }: Props) => {
           </Link>
           {brand && (
             <>
-              {" - "}
+              {" — "}
               <Link href={`/brands/${brandName}`} className="hover:underline">
                 {brand}
               </Link>
@@ -77,7 +77,7 @@ const ProductDetails = ({ product }: Props) => {
 
 export const Segments = ({ product }: Props) => {
   const { id, title, category } = product;
-  const cat = category.split("-").join(" ");
+  const cat = category.replace("-", " ");
 
   return (
     <Breadcrumbs

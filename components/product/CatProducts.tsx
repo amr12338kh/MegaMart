@@ -12,11 +12,13 @@ const CatProducts = async ({ productCat, productId }: CatProductsProps) => {
   const filteredProducts = products
     .filter((product) => product.id !== productId)
     .slice(0, 4);
+  const categoryName = productCat.replace("-", " ");
 
   return (
     <SectionContainer>
       <SectionHeading
-        title={`${productCat.split("-").join(" ")} category`}
+        title={`${categoryName} category`}
+        tagline="Find the Best Products in This Category"
         linkText="View all"
         link={`/category/${productCat}`}
         isOne

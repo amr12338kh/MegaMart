@@ -31,7 +31,10 @@ const Products = async ({ searchParams }: SearchParamsProps) => {
 
   return (
     <SectionContainer container>
-      <SectionHeading title="Products" tagline="Buy products from our stores" />
+      <SectionHeading
+        title="Products"
+        tagline="Explore Our Wide Selection of Quality Products"
+      />
       <SectionContent>
         <Separator />
         {!isDataEmpty ? (

@@ -13,25 +13,29 @@ export async function generateMetadata({
 }: {
   params: { catId: string };
 }) {
+  const { catId } = params;
+  const categoryName = catId.replace("-", " ");
+
   return {
-    title: `${params.catId
-      .replace("-", " ")
-      .charAt(0)
-      .toUpperCase()}${params.catId.replace("-", " ").slice(1)} - MegaMart`,
-    description: params.catId.replace("-", " "),
+    title: `${categoryName.charAt(0).toUpperCase()}${categoryName.slice(
+      1
+    )} - MegaMart`,
+    description: categoryName,
   };
 }
 
 const singleCategory = async ({ params }: { params: { catId: string } }) => {
-  const products = await categoriesData(params.catId);
+  const { catId } = params;
+  const categoryName = catId.replace("-", " ");
+  const products = await categoriesData(catId);
   const isDataEmpty =
     !Array.isArray(products) || products.length < 1 || !products;
 
   return (
     <SectionContainer container>
       <SectionHeading
-        title={params.catId.replace("-", " ")}
-        tagline="Buy products from our stores"
+        title={categoryName}
+        tagline="Explore Our Exclusive Collection"
       />
       <SectionContent>
         <Separator />

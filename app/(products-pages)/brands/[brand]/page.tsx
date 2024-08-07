@@ -9,6 +9,9 @@ import { getProductsBrands } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 
 const page = async ({ params }: { params: { brand: string } }) => {
+  const { brand } = params;
+  const brandName = brand?.replace("-", " ");
+  const brandLink = brand?.replace(" ", "-");
   const products = await getProductsBrands();
 
   const isDataEmpty =
@@ -17,10 +20,8 @@ const page = async ({ params }: { params: { brand: string } }) => {
   return (
     <SectionContainer container>
       <SectionHeading
-        title={`${params.brand?.split("-").join(" ")} Products`}
-        tagline={`Exclusive collection of ${params.brand
-          ?.split("-")
-          .join(" ")} products available now`}
+        title={`${brandName} Products`}
+        tagline={`Exclusive collection of ${brandName} products available now`}
       />
       <SectionContent>
         <Separator />
@@ -31,8 +32,7 @@ const page = async ({ params }: { params: { brand: string } }) => {
                 .sort()
                 .map(
                   (product) =>
-                    product.brand?.split(" ").join("-") ===
-                      params.brand?.split(" ").join("-") && (
+                    product.brand?.replace(" ", "-") === brandLink && (
                       <Card key={product.id} product={product} />
                     )
                 )}

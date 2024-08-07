@@ -12,7 +12,8 @@ export async function generateMetadata({
 }: {
   params: { productId: string };
 }) {
-  const product = await singleProductData(params.productId);
+  const { productId } = params;
+  const product = await singleProductData(productId);
 
   return {
     title: `${product.title} - MegaMart`,
@@ -21,17 +22,19 @@ export async function generateMetadata({
 }
 
 const page = async ({ params }: { params: { productId: string } }) => {
-  const product = await singleProductData(params.productId);
+  const { productId } = params;
+  const product = await singleProductData(productId);
+  const { category, id } = product;
 
   if (!product) notFound();
 
   return (
-    <main className=" container">
+    <main className="container">
       <section className="flex-1 mb-16">
         <SingleProduct product={product} />
       </section>
       <section>
-        <CatProducts productCat={product.category} productId={product.id} />
+        <CatProducts productCat={category} productId={id} />
       </section>
       <section>
         <RecommendedProducts recNumber={4} />
