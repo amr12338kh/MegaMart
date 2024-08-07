@@ -121,7 +121,7 @@ const ProductPoliciesItem = ({
 }) => (
   <div className="flex xl:flex-col items-center gap-2">
     <div className="p-2 bg-muted rounded-full">{icon}</div>
-    <p className="text-sm xl:text-base">{text}</p>
+    <p className="text-sm">{text}</p>
   </div>
 );
 
