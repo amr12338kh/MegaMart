@@ -20,6 +20,7 @@ export async function generateMetadata() {
 const Products = async ({ searchParams }: SearchParamsProps) => {
   const products = await productsData({
     limit: searchParams.limit || 12,
+    order: searchParams.order || "asc",
     skip: searchParams.skip || 0,
   });
 
@@ -34,13 +35,14 @@ const Products = async ({ searchParams }: SearchParamsProps) => {
       <SectionHeading
         title="Products"
         tagline="Explore Our Wide Selection of Quality Products"
+        filters
       />
       <SectionContent>
         <Separator />
         {!isDataEmpty ? (
           <div>
             <SectionCards>
-              {products.sort().map((product) => (
+              {products.map((product) => (
                 <Card key={product.id} product={product} />
               ))}
             </SectionCards>

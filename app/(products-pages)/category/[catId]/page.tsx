@@ -36,6 +36,7 @@ const singleCategory = async ({ params }: { params: { catId: string } }) => {
       <SectionHeading
         title={categoryName}
         tagline="Explore Our Exclusive Collection"
+        filters
       />
       <SectionContent>
         <Separator />

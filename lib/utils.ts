@@ -34,8 +34,8 @@ export const getData = async (url: string, cacheTime?: number) => {
 export const productsData = async (
   filters: FilterProps
 ): Promise<ProductProps[]> => {
-  const { limit, skip } = filters;
-  const url = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;
+  const { limit, order, price, skip } = filters;
+  const url = `https://dummyjson.com/products?limit=${limit}&skip=${skip}&sortBy=title&order=${order}`;
   try {
     const data = await getData(url);
     return data.products as ProductProps[];
@@ -183,6 +183,17 @@ export const getProductsBrands = async (): Promise<ProductProps[]> => {
   try {
     const data = await getData(url);
     return data.products as ProductProps[];
+  } catch (error) {
+    console.error(`Error fetching products: ${error}`);
+    throw error;
+  }
+};
+
+export const getCategoryList = async (): Promise<string[]> => {
+  const url = `https://dummyjson.com/products/category-list`;
+  try {
+    const data = await getData(url);
+    return data;
   } catch (error) {
     console.error(`Error fetching products: ${error}`);
     throw error;

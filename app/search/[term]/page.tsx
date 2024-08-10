@@ -21,6 +21,7 @@ const page = async ({ params }: { params: { term: string } }) => {
       <SectionHeading
         title={`Results for: ${termToUse}`}
         tagline="Buy products from our stores"
+        filters
       />
       <SectionContent>
         <Separator />

@@ -1,15 +1,6 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardTitle,
-  CardDescription,
-  CardFooter,
-} from "@/components/ui/card";
 import {
   SectionContainer,
   SectionHeading,

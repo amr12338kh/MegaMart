@@ -22,6 +22,7 @@ const page = async ({ params }: { params: { brand: string } }) => {
       <SectionHeading
         title={`${brandName} Products`}
         tagline={`Exclusive collection of ${brandName} products available now`}
+        filters
       />
       <SectionContent>
         <Separator />

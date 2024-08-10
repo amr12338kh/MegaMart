@@ -40,16 +40,55 @@ export interface ProductProps {
   images: [string, string, string, string];
 }
 
+export interface SectionContainerProps {
+  children: React.ReactNode;
+  className?: string;
+  container?: boolean;
+}
+
+export interface SectionHeadingProps {
+  className?: string;
+  title: string | JSX.Element;
+  tagline?: string | JSX.Element;
+  linkText?: string | JSX.Element;
+  link?: string;
+  isOne?: boolean;
+  filters?: boolean | JSX.Element;
+}
+
+export interface SectionTitleProps {
+  title: string | JSX.Element;
+}
+
+export interface SectionTaglineProps {
+  tagline: string | JSX.Element;
+}
+
+export interface SectionLinkProps {
+  link: string;
+  title: string | JSX.Element;
+  load?: boolean;
+}
+
+export interface SectionContentProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export interface SectionCardsProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
 export interface FilterProps {
   limit: number;
+  order?: "asc" | "desc";
+  price?: "high" | "low";
   skip?: number;
 }
 
 export interface SearchParamsProps {
-  searchParams: {
-    limit: number;
-    skip?: number;
-  };
+  searchParams: FilterProps;
 }
 
 export interface PaginationButtonProps {
