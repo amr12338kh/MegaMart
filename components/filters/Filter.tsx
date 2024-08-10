@@ -11,7 +11,7 @@ import {
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import CategoryCommand from "./CategoryCommand";
 import { Suspense } from "react";
 import CommandLoading from "../skeletons/CommandLoading";
@@ -31,6 +31,14 @@ const Filter = () => {
       setMaxPrice(value[0]);
     }
   };
+
+  const MemoizedCategoryCommand = useMemo(() => {
+    return (
+      <Suspense fallback={<CommandLoading />}>
+        <CategoryCommand />
+      </Suspense>
+    );
+  }, []); // The empty dependency array ensures this memoization only happens once
 
   return (
     <Sheet>
@@ -66,7 +74,7 @@ const Filter = () => {
             <div>
               <Slider
                 min={0}
-                max={1000}
+                max={10000}
                 step={10}
                 value={[maxPrice]}
                 onValueChange={handleMaxPriceChange}
@@ -82,9 +90,7 @@ const Filter = () => {
         </div>
 
         <Separator className="my-4" />
-        <Suspense fallback={<CommandLoading />}>
-          <CategoryCommand />
-        </Suspense>
+        {MemoizedCategoryCommand}
       </SheetContent>
     </Sheet>
   );
