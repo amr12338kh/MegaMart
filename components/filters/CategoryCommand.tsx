@@ -35,7 +35,7 @@ const CategoryCommand = () => {
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="Categories">
           {categoryList.map((cat, i) => (
-            <Link key={i} href={`category/${cat}`}>
+            <Link key={i} href={`/category/${cat}`}>
               <CommandItem className="cursor-pointer capitalize">
                 {cat.replace("-", " ")}
               </CommandItem>
