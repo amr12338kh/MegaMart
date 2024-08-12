@@ -45,6 +45,17 @@ export const productsData = async (
   }
 };
 
+export const getTotalProducts = async (): Promise<number> => {
+  const url = `https://dummyjson.com/products`;
+  try {
+    const data = await getData(url);
+    return data.total as number;
+  } catch (error) {
+    console.error(`Error fetching total products: ${error}`);
+    throw error;
+  }
+};
+
 export const updateSearchParams = (type: string, value: string) => {
   const searchParams = new URLSearchParams(window.location.search);
 

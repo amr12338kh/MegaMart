@@ -10,6 +10,7 @@ import {
 } from "@/components/SectionContainer";
 import { Separator } from "@/components/ui/separator";
 import NotFoundProducts from "@/components/NotFoundProducts";
+import { getTotalProducts } from "@/lib/utils";
 
 export async function generateMetadata() {
   return {
@@ -20,6 +21,8 @@ export async function generateMetadata() {
 
 const Products = async ({ searchParams }: { searchParams: FilterProps }) => {
   const { limit, skip, order } = searchParams;
+
+  const total = await getTotalProducts();
   const products = await productsData({
     limit: limit || 12,
     skip: skip || 0,
@@ -27,10 +30,8 @@ const Products = async ({ searchParams }: { searchParams: FilterProps }) => {
   });
 
   const isDataEmpty = !Array.isArray(products) || products.length === 0;
-
   const pageNumber = (limit || 12) / 10;
-  const isNext = (limit || 12) > products.length;
-  const isSkip = (skip || 0) / 10;
+  const totalPages = Math.ceil(total / (limit || 12));
 
   return (
     <SectionContainer container>
@@ -48,11 +49,7 @@ const Products = async ({ searchParams }: { searchParams: FilterProps }) => {
                 <Card key={product.id} product={product} />
               ))}
             </SectionCards>
-            {!isNext && (
-              <div className="flex items-center justify-center mt-10">
-                <PaginationButton pageNumber={pageNumber} isSkip={isSkip} />
-              </div>
-            )}
+            {totalPages > 1 && <PaginationButton pageNumber={pageNumber} />}
           </div>
         ) : (
           <NotFoundProducts />

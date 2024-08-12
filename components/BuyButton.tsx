@@ -12,15 +12,16 @@ interface Props {
 }
 
 const BuyButton = ({ product }: Props) => {
+  const { id } = product;
   const [isClicked, setIsClicked] = useState(false);
   const router = useRouter();
   const { increaseCartQuantity, getItemQuantity } = useShopingCart();
-  const quantity = getItemQuantity(product.id);
+  const quantity = getItemQuantity(id);
 
   const handleBuyButton = () => {
     setIsClicked(true);
     if (quantity < 1) {
-      increaseCartQuantity(product.id);
+      increaseCartQuantity(id);
     }
     router.replace("/cart");
   };

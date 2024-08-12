@@ -1,4 +1,6 @@
-export const lobby = [
+import { FooterLinksProps, HeaderLinksProps, LinksProps } from "@/types";
+
+export const lobby: LinksProps[] = [
   {
     title: "Home",
     description: "Go to the home page.",
@@ -16,7 +18,7 @@ export const lobby = [
   },
 ];
 
-export const collections = [
+export const collections: LinksProps[] = [
   {
     title: "Smartphones",
     description:
@@ -55,7 +57,7 @@ export const collections = [
   },
 ];
 
-export const help = [
+export const help: LinksProps[] = [
   {
     title: "About",
     link: "/about",
@@ -73,14 +75,14 @@ export const help = [
   },
 ];
 
-export const credits = [
+export const credits: LinksProps[] = [
+  {
+    title: "Dummy JSON",
+    link: "https://dummyjson.com/",
+  },
   {
     title: "shadcn/ui",
     link: "https://ui.shadcn.com/",
-  },
-  {
-    title: "React Icons",
-    link: "https://react-icons.github.io/react-icons/",
   },
   {
     title: "Email JS",
@@ -88,7 +90,7 @@ export const credits = [
   },
 ];
 
-export const social = [
+export const social: LinksProps[] = [
   {
     title: "Instagram",
     link: "https://www.instagram.com/amrrkhaled_9/",
@@ -103,7 +105,7 @@ export const social = [
   },
 ];
 
-export const headerLinks = [
+export const headerLinks: HeaderLinksProps[] = [
   {
     title: "Lobby",
     links: lobby,
@@ -118,7 +120,7 @@ export const headerLinks = [
   },
 ];
 
-export const footerLinks = [
+export const footerLinks: FooterLinksProps[] = [
   {
     title: "Lobby",
     links: lobby,

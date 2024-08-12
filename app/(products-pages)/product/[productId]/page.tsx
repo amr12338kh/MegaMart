@@ -5,7 +5,6 @@ import CatProducts from "@/components/product/CatProducts";
 import { notFound } from "next/navigation";
 import Reviews from "@/components/product/Reviews";
 import { Separator } from "@/components/ui/separator";
-import Loading from "./loading";
 
 export async function generateMetadata({
   params,

@@ -8,16 +8,18 @@ import { Button } from "../ui/button";
 const PaginationButton = ({ pageNumber }: PaginationButtonProps) => {
   const router = useRouter();
 
-  const handelNavigation = () => {
+  const handleNavigation = () => {
     const newLimit = (pageNumber + 1) * 10;
     const newPathNameLimit = updateSearchParams("limit", `${newLimit}`);
     router.push(newPathNameLimit, { scroll: false });
   };
 
   return (
-    <Button variant="outline" onClick={handelNavigation}>
-      See More
-    </Button>
+    <div className="flex items-center justify-center mt-10">
+      <Button variant="outline" onClick={handleNavigation}>
+        See More
+      </Button>
+    </div>
   );
 };
 

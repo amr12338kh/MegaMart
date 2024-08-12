@@ -18,18 +18,20 @@ interface Props {
 }
 
 const ProductCard = ({ product }: Props) => {
+  const { id, title, thumbnail, price } = product;
+
   return (
     <Card className="h-full w-full overflow-hidden rounded-md">
       <Link
-        href={`/product/${product.id}`}
-        aria-label={`View ${product.title} details`}
+        href={`/product/${id}`}
+        aria-label={`View ${title} details`}
         role="group"
       >
         <CardHeader className=" border-b p-0">
           <AspectRatio ratio={4 / 3}>
             <Image
-              src={product.thumbnail}
-              alt={product.title}
+              src={thumbnail}
+              alt={title}
               className=" rounded-t object-cover"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               fill
@@ -39,12 +41,8 @@ const ProductCard = ({ product }: Props) => {
         </CardHeader>
 
         <CardContent className="space-y-1.5 p-4">
-          <CardTitle className="line-clamp-1 text-base">
-            {product.title}
-          </CardTitle>
-          <CardDescription className="line-clamp-1">
-            ${product.price}
-          </CardDescription>
+          <CardTitle className="line-clamp-1 text-base">{title}</CardTitle>
+          <CardDescription className="line-clamp-1">${price}</CardDescription>
         </CardContent>
       </Link>
 

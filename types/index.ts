@@ -1,3 +1,20 @@
+export interface LinksProps {
+  title: string;
+  link: string;
+  description?: string;
+}
+
+export interface HeaderLinksProps {
+  title: string;
+  links: LinksProps[];
+}
+
+export interface FooterLinksProps {
+  title: string;
+  links: LinksProps[];
+  blank: boolean;
+}
+
 export interface ProductProps {
   id: number;
   title: string;
@@ -85,16 +102,8 @@ export interface FilterProps {
   order?: "asc" | "desc";
   skip?: number;
 }
-
-// export interface SearchParamsProps {
-//   order?: "asc" | "desc";
-//   limit?: number;
-//   skip?: number;
-// }
-
 export interface PaginationButtonProps {
   pageNumber: number;
-  isSkip: number;
 }
 
 export interface CatProductsProps {

@@ -16,6 +16,7 @@ interface Props {
 
 const CartItem = ({ product }: Props) => {
   const { toast } = useToast();
+  const { title, thumbnail, price, id, category } = product;
 
   const {
     getItemQuantity,
@@ -25,7 +26,7 @@ const CartItem = ({ product }: Props) => {
   } = useShopingCart();
 
   const handelRemoveFromCart = () => {
-    removeFromCart(product.id);
+    removeFromCart(id);
     toast({
       title: "Item Removed Successfully",
     });
@@ -34,14 +35,14 @@ const CartItem = ({ product }: Props) => {
   const formatPrice = (price: number) => price.toFixed(2);
 
   return (
-    <div className="flex flex-col sm:flex-row" key={product.id}>
+    <div className="flex flex-col sm:flex-row" key={id}>
       <div className="flex w-full bg-card text-card-foreground">
         <div className="relative aspect-square min-w-[40px] max-w-[70px] sm:min-w-[50px] sm:max-w-[80px] w-full flex-[0_0_100%]">
           <Image
             role="group"
             aria-roledescription="slide"
-            src={product.thumbnail}
-            alt={product.title}
+            src={thumbnail}
+            alt={title}
             fill
             className="object-cover rounded-md w-full"
           />
@@ -49,18 +50,18 @@ const CartItem = ({ product }: Props) => {
         <div className=" ml-4 sm:ml-8 w-full">
           <div className="flex flex-col">
             <div>
-              <Link href={`/product/${product.id}`}>
+              <Link href={`/product/${id}`}>
                 <h4 className="scroll-m-20 text-sm sm:text-base font-semibold tracking-tight hover:underline cursor-pointer line-clamp-1">
-                  {product.title}
+                  {title}
                 </h4>
               </Link>
               <p className="text-[12px] sm:text-sm text-muted-foreground">
-                ${formatPrice(product.price)} x {getItemQuantity(product.id)} =
-                ${formatPrice(product.price * getItemQuantity(product.id))}
+                ${formatPrice(price)} x {getItemQuantity(id)} = $
+                {formatPrice(price * getItemQuantity(id))}
               </p>
-              <Link href={`/category/${product.category}`}>
+              <Link href={`/category/${category}`}>
                 <p className="text-[12px] cursor-pointer hover:underline sm:text-sm text-muted-foreground capitalize">
-                  {product.category.split("-").join(" ")}
+                  {category.replace("-", " ")}
                 </p>
               </Link>
             </div>
@@ -73,21 +74,21 @@ const CartItem = ({ product }: Props) => {
             variant="outline"
             size="sm"
             className="rounded-r-none h-8"
-            onClick={() => increaseCartQuantity(product.id)}
+            onClick={() => increaseCartQuantity(id)}
           >
             <FaPlus size={8} />
           </Button>
           <Input
             type="number"
             className="w-[40px] h-8 border-x-0 shadow-none rounded-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-            value={getItemQuantity(product.id)}
+            value={getItemQuantity(id)}
             readOnly
           />
           <Button
             variant="outline"
             size="sm"
             className="rounded-l-none h-8"
-            onClick={() => decreaseQuantity(product.id)}
+            onClick={() => decreaseQuantity(id)}
           >
             <FaMinus size={8} />
           </Button>

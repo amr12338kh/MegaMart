@@ -10,13 +10,9 @@ import { AddToCartButtonProps } from "@/types";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { Input } from "./ui/input";
 
-const AddToCartButton = ({
-  size,
-  style,
-  variant,
-  product,
-}: AddToCartButtonProps) => {
+const AddToCartButton = ({ style, variant, product }: AddToCartButtonProps) => {
   const { toast } = useToast();
+  const { id } = product;
 
   const {
     increaseCartQuantity,
@@ -26,7 +22,7 @@ const AddToCartButton = ({
   } = useShopingCart();
 
   const handleAddToCart = () => {
-    increaseCartQuantity(product.id);
+    increaseCartQuantity(id);
     toast({
       title: "Added To Cart Successfully",
       action: (
@@ -38,16 +34,16 @@ const AddToCartButton = ({
   };
 
   const handleRemoveFromCart = () => {
-    removeFromCart(product.id);
+    removeFromCart(id);
     toast({
       title: "Item Removed Successfully",
     });
   };
 
-  const quantity = getItemQuantity(product.id);
+  const quantity = getItemQuantity(id);
 
   const handleDecreaseQuantity = () => {
-    decreaseQuantity(product.id);
+    decreaseQuantity(id);
     if (quantity === 1) {
       return toast({
         title: "Item Removed Successfully",
@@ -72,7 +68,7 @@ const AddToCartButton = ({
           variant="outline"
           size="sm"
           className="rounded-r-none"
-          onClick={() => increaseCartQuantity(product.id)}
+          onClick={() => increaseCartQuantity(id)}
         >
           <FaPlus size={8} />
         </Button>

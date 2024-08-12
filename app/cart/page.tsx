@@ -2,15 +2,11 @@ import { ProductProps } from "@/types";
 import Cart from "./Crat";
 import { getCartProducts } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
+import { getTotalProducts } from "@/lib/utils";
 
 const page = async () => {
-  const initialFetchLimit = 10000;
-  const allProducts: ProductProps[] = await getCartProducts({
-    limit: initialFetchLimit,
-  });
-
-  const limit = allProducts.length;
-  const products: ProductProps[] = await getCartProducts({ limit });
+  const total = await getTotalProducts();
+  const products: ProductProps[] = await getCartProducts({ limit: total });
 
   return (
     <main className=" container w-full py-8 min-h-[80vh]">
