@@ -8,6 +8,7 @@ import {
 } from "@/components/SectionContainer";
 import { Separator } from "@/components/ui/separator";
 import { FilterProps } from "@/types";
+import NotFoundProducts from "@/components/NotFoundProducts";
 
 export async function generateMetadata({
   params,
@@ -57,9 +58,7 @@ const singleCategory = async ({
             })}
           </SectionCards>
         ) : (
-          <div>
-            <h2 className="text-black text-xl font-bold">Oops!, no results</h2>
-          </div>
+          <NotFoundProducts />
         )}
       </SectionContent>
     </SectionContainer>

@@ -9,6 +9,7 @@ import {
 import Card from "@/components/product/Card";
 import { Separator } from "@/components/ui/separator";
 import { FilterProps } from "@/types";
+import NotFoundProducts from "@/components/NotFoundProducts";
 
 const page = async ({
   params,
@@ -42,16 +43,7 @@ const page = async ({
             ))}
           </SectionCards>
         ) : (
-          <section className="flex flex-col items-center h-full justify-center">
-            <div className=" my-10">
-              <h1 className="scroll-m-20 text-2xl sm:text-3xl text-center font-extrabold tracking-tight lg:text-5xl">
-                Oops! No Results Found.
-              </h1>
-              <p className="leading-7 [&:not(:first-child)]:mt-3 text-center text-muted-foreground">
-                Please try again.
-              </p>
-            </div>
-          </section>
+          <NotFoundProducts isSearch />
         )}
       </SectionContent>
     </SectionContainer>

@@ -8,6 +8,7 @@ import Card from "@/components/product/Card";
 import { getProductsBrands } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { FilterProps } from "@/types";
+import NotFoundProducts from "@/components/NotFoundProducts";
 
 const page = async ({
   params,
@@ -47,9 +48,7 @@ const page = async ({
             </SectionCards>
           </div>
         ) : (
-          <section>
-            <h2 className="text-black text-xl font-bold">Oops!, no results</h2>
-          </section>
+          <NotFoundProducts />
         )}
       </SectionContent>
     </SectionContainer>

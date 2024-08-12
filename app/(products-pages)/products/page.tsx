@@ -9,6 +9,7 @@ import {
   SectionCards,
 } from "@/components/SectionContainer";
 import { Separator } from "@/components/ui/separator";
+import NotFoundProducts from "@/components/NotFoundProducts";
 
 export async function generateMetadata() {
   return {
@@ -54,9 +55,7 @@ const Products = async ({ searchParams }: { searchParams: FilterProps }) => {
             )}
           </div>
         ) : (
-          <section>
-            <h2 className="text-black text-xl font-bold">Oops!, no results</h2>
-          </section>
+          <NotFoundProducts />
         )}
       </SectionContent>
     </SectionContainer>
