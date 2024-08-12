@@ -81,19 +81,20 @@ export interface SectionCardsProps {
 }
 
 export interface FilterProps {
-  limit: number;
+  limit?: number;
   order?: "asc" | "desc";
-  price?: "high" | "low";
   skip?: number;
 }
 
-export interface SearchParamsProps {
-  searchParams: FilterProps;
-}
+// export interface SearchParamsProps {
+//   order?: "asc" | "desc";
+//   limit?: number;
+//   skip?: number;
+// }
 
 export interface PaginationButtonProps {
   pageNumber: number;
-  skip: number;
+  isSkip: number;
 }
 
 export interface CatProductsProps {

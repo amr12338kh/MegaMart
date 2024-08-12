@@ -7,6 +7,7 @@ import {
   SectionCards,
 } from "@/components/SectionContainer";
 import { Separator } from "@/components/ui/separator";
+import { FilterProps } from "@/types";
 
 export async function generateMetadata({
   params,
@@ -24,12 +25,21 @@ export async function generateMetadata({
   };
 }
 
-const singleCategory = async ({ params }: { params: { catId: string } }) => {
+const singleCategory = async ({
+  params,
+  searchParams,
+}: {
+  params: { catId: string };
+  searchParams: FilterProps;
+}) => {
   const { catId } = params;
   const categoryName = catId.replace("-", " ");
-  const products = await categoriesData(catId);
-  const isDataEmpty =
-    !Array.isArray(products) || products.length < 1 || !products;
+
+  const products = await categoriesData(catId, {
+    order: searchParams.order || "asc",
+  });
+
+  const isDataEmpty = !Array.isArray(products) || products.length === 0;
 
   return (
     <SectionContainer container>

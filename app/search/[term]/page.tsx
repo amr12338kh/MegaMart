@@ -8,13 +8,23 @@ import {
 } from "@/components/SectionContainer";
 import Card from "@/components/product/Card";
 import { Separator } from "@/components/ui/separator";
+import { FilterProps } from "@/types";
 
-const page = async ({ params }: { params: { term: string } }) => {
+const page = async ({
+  params,
+  searchParams,
+}: {
+  params: { term: string };
+  searchParams: FilterProps;
+}) => {
   if (!params.term) notFound();
+
   const termToUse = decodeURI(params.term);
-  const products = await getSearchedProducts(termToUse);
-  const isDataEmpty =
-    !Array.isArray(products) || products.length < 1 || !products;
+  const products = await getSearchedProducts(termToUse, {
+    order: searchParams.order || "asc",
+  });
+
+  const isDataEmpty = !Array.isArray(products) || products.length === 0;
 
   return (
     <SectionContainer container className=" min-h-[80vh]">

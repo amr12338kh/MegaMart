@@ -34,7 +34,7 @@ export const getData = async (url: string, cacheTime?: number) => {
 export const productsData = async (
   filters: FilterProps
 ): Promise<ProductProps[]> => {
-  const { limit, order, price, skip } = filters;
+  const { limit, order, skip } = filters;
   const url = `https://dummyjson.com/products?limit=${limit}&skip=${skip}&sortBy=title&order=${order}`;
   try {
     const data = await getData(url);
@@ -128,8 +128,9 @@ export const getRecommendedProducts = async (recNumber: number) => {
   }
 };
 
-export const categoriesData = async (params: string) => {
-  const url = `https://dummyjson.com/products/category/${params}`;
+export const categoriesData = async (params: string, filters: FilterProps) => {
+  const { order } = filters;
+  const url = `https://dummyjson.com/products/category/${params}?sortBy=title&order=${order}`;
   try {
     const data = await getData(url);
     return data.products as ProductProps[];
@@ -153,8 +154,12 @@ export const getCartProducts = async (
   }
 };
 
-export const getSearchedProducts = async (term: string) => {
-  const url = `https://dummyjson.com/products/search?q=${term}`;
+export const getSearchedProducts = async (
+  term: string,
+  filters: FilterProps
+) => {
+  const { order } = filters;
+  const url = `https://dummyjson.com/products/search?q=${term}&sortBy=title&order=${order}`;
   try {
     const data = await getData(url);
     return data.products as ProductProps[];
@@ -178,8 +183,11 @@ export const getLatestProducts = async (): Promise<ProductProps[]> => {
   }
 };
 
-export const getProductsBrands = async (): Promise<ProductProps[]> => {
-  const url = `https://dummyjson.com/products?limit=10000`;
+export const getProductsBrands = async (
+  filters: FilterProps
+): Promise<ProductProps[]> => {
+  const { order } = filters;
+  const url = `https://dummyjson.com/products?limit=10000&sortBy=title&order=${order}`;
   try {
     const data = await getData(url);
     return data.products as ProductProps[];

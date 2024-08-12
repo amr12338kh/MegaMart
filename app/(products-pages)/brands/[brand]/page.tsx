@@ -7,15 +7,24 @@ import {
 import Card from "@/components/product/Card";
 import { getProductsBrands } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
+import { FilterProps } from "@/types";
 
-const page = async ({ params }: { params: { brand: string } }) => {
+const page = async ({
+  params,
+  searchParams,
+}: {
+  params: { brand: string };
+  searchParams: FilterProps;
+}) => {
   const { brand } = params;
   const brandName = brand?.replace("-", " ");
   const brandLink = brand?.replace(" ", "-");
-  const products = await getProductsBrands();
 
-  const isDataEmpty =
-    !Array.isArray(products) || products.length < 1 || !products;
+  const products = await getProductsBrands({
+    order: searchParams.order || "asc",
+  });
+
+  const isDataEmpty = !Array.isArray(products) || products.length === 0;
 
   return (
     <SectionContainer container>
@@ -29,14 +38,12 @@ const page = async ({ params }: { params: { brand: string } }) => {
         {!isDataEmpty ? (
           <div>
             <SectionCards>
-              {products
-                .sort()
-                .map(
-                  (product) =>
-                    product.brand?.replace(" ", "-") === brandLink && (
-                      <Card key={product.id} product={product} />
-                    )
-                )}
+              {products.map(
+                (product) =>
+                  product.brand?.replace(" ", "-") === brandLink && (
+                    <Card key={product.id} product={product} />
+                  )
+              )}
             </SectionCards>
           </div>
         ) : (

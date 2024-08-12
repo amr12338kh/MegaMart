@@ -1,7 +1,7 @@
 import PaginationButton from "@/components/pagers/PaginationButton";
 import Card from "@/components/product/Card";
 import { productsData } from "@/lib/utils";
-import { SearchParamsProps } from "@/types";
+import { FilterProps } from "@/types";
 import {
   SectionContainer,
   SectionHeading,
@@ -17,18 +17,19 @@ export async function generateMetadata() {
   };
 }
 
-const Products = async ({ searchParams }: SearchParamsProps) => {
+const Products = async ({ searchParams }: { searchParams: FilterProps }) => {
+  const { limit, skip, order } = searchParams;
   const products = await productsData({
-    limit: searchParams.limit || 12,
-    order: searchParams.order || "asc",
-    skip: searchParams.skip || 0,
+    limit: limit || 12,
+    skip: skip || 0,
+    order: order || "asc",
   });
 
-  const isDataEmpty =
-    !Array.isArray(products) || products.length < 1 || !products;
-  const pageNumber = (searchParams.limit || 10) / 10;
-  const isNext = (searchParams.limit || 10) > products.length;
-  const skip = (searchParams.skip || 0) / 10;
+  const isDataEmpty = !Array.isArray(products) || products.length === 0;
+
+  const pageNumber = (limit || 12) / 10;
+  const isNext = (limit || 12) > products.length;
+  const isSkip = (skip || 0) / 10;
 
   return (
     <SectionContainer container>
@@ -48,7 +49,7 @@ const Products = async ({ searchParams }: SearchParamsProps) => {
             </SectionCards>
             {!isNext && (
               <div className="flex items-center justify-center mt-10">
-                <PaginationButton pageNumber={pageNumber} skip={skip} />
+                <PaginationButton pageNumber={pageNumber} isSkip={isSkip} />
               </div>
             )}
           </div>
