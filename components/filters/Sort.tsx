@@ -11,27 +11,29 @@ import {
 import { updateSearchParams } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
+import { ArrowUpDown } from "lucide-react";
 
 const Sort = () => {
   const router = useRouter();
 
-  const handelNavigationOreder = (newOrder: "asc" | "desc") => {
+  const handelNavigationOrder = (newOrder: "asc" | "desc") => {
     const newPathNameOrder = updateSearchParams("order", newOrder);
     router.push(newPathNameOrder, { scroll: false });
   };
 
   const handleAsc = () => {
-    handelNavigationOreder("asc");
+    handelNavigationOrder("asc");
   };
 
   const handleDesc = () => {
-    handelNavigationOreder("desc");
+    handelNavigationOrder("desc");
   };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="outline-none">
-        <Button size="sm" variant="outline">
+        <Button size="sm" variant="outline" className="gap-2">
+          <ArrowUpDown className="h-4 w-4" />
           Sort
         </Button>
       </DropdownMenuTrigger>

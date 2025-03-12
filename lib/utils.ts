@@ -56,16 +56,27 @@ export const getTotalProducts = async (): Promise<number> => {
   }
 };
 
-export const updateSearchParams = (type: string, value: string) => {
-  const searchParams = new URLSearchParams(window.location.search);
+export const updateSearchParams = (
+  type: string,
+  value: string,
+  currentPathname?: string
+) => {
+  const searchParams = currentPathname
+    ? new URLSearchParams(currentPathname.split("?")[1] || "")
+    : new URLSearchParams(window.location.search);
 
   searchParams.set(type, value);
-  const newPathname = `${window.location.pathname}?${searchParams.toString()}`;
+
+  const pathBase = currentPathname
+    ? currentPathname.split("?")[0]
+    : window.location.pathname;
+
+  const newPathname = `${pathBase}?${searchParams.toString()}`;
 
   return newPathname;
 };
 
-export const getCatProducts = async (
+export const getCategoryRelatedProducts = async (
   cat: string,
   filters: FilterProps
 ): Promise<ProductProps[]> => {
@@ -83,11 +94,20 @@ export const getCatProducts = async (
 export const bestSellerProducts = async (
   filters: FilterProps
 ): Promise<ProductProps[]> => {
-  const { limit, skip } = filters;
-  const url = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;
+  const { limit = 4, skip = 0 } = filters;
+  const url = `https://dummyjson.com/products?limit=100&skip=${skip}`;
   try {
     const data = await getData(url);
-    return data.products as ProductProps[];
+    const products = data.products as ProductProps[];
+
+    const sortedProducts = products.sort((a, b) => {
+      const ratingA = a.rating || 0;
+      const ratingB = b.rating || 0;
+
+      return ratingB - ratingA;
+    });
+
+    return sortedProducts.slice(skip, skip + limit);
   } catch (error) {
     console.error(`Error fetching best seller products: ${error}`);
     throw error;
@@ -140,14 +160,27 @@ export const getRecommendedProducts = async (recNumber: number) => {
 };
 
 export const categoriesData = async (params: string, filters: FilterProps) => {
-  const { order } = filters;
-  const url = `https://dummyjson.com/products/category/${params}?sortBy=title&order=${order}`;
+  const { order, limit, skip } = filters;
+  const url = `https://dummyjson.com/products/category/${params}?sortBy=title&order=${order}&limit=${limit}&skip=${skip}`;
   try {
     const data = await getData(url);
     return data.products as ProductProps[];
   } catch (error) {
     console.error(`Error fetching categories data: ${error}`);
     throw error;
+  }
+};
+
+export const getTotalCategoryProducts = async (
+  category: string
+): Promise<number> => {
+  try {
+    const url = `https://dummyjson.com/products/category/${category}?limit=1000`;
+    const data = await getData(url);
+    return data.products.length;
+  } catch (innerError) {
+    console.error(`Error in fallback method: ${innerError}`);
+    return 0;
   }
 };
 
@@ -198,7 +231,7 @@ export const getProductsBrands = async (
   filters: FilterProps
 ): Promise<ProductProps[]> => {
   const { order } = filters;
-  const url = `https://dummyjson.com/products?limit=10000&sortBy=title&order=${order}`;
+  const url = `https://dummyjson.com/products?limit=1000&sortBy=title&order=${order}`;
   try {
     const data = await getData(url);
     return data.products as ProductProps[];

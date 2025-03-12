@@ -2,19 +2,19 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import {
-  ShopingCartContextProps,
+  ShoppingCartContextProps,
   CartItemProps,
   ProductProps,
 } from "@/types/index";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 
-const ShopingCartContext = createContext({} as ShopingCartContextProps);
+const ShoppingCartContext = createContext({} as ShoppingCartContextProps);
 
-export const useShopingCart = () => {
-  return useContext(ShopingCartContext);
+export const useShoppingCart = () => {
+  return useContext(ShoppingCartContext);
 };
 
-export const ShopingCartProvider = ({
+export const ShoppingCartProvider = ({
   children,
 }: {
   children: React.ReactNode;
@@ -86,10 +86,28 @@ export const ShopingCartProvider = ({
     });
   };
 
+  const clearCart = () => {
+    cartItems.map(({ id }) => {
+      const items = cartItems.find((item) => item.id === id);
+      if (items?.id !== undefined) {
+        removeFromCart(items.id);
+      }
+    });
+  };
+
   const calculateTotalPrice = (products: ProductProps[]) => {
     return cartItems.reduce((total, item) => {
       const product = products.find((p) => p.id === item.id);
-      if (product) {
+
+      const discountedPrice = product?.discountPercentage
+        ? product.price - (product.price * product.discountPercentage) / 100
+        : product?.price;
+      const hasDiscount =
+        product?.discountPercentage && product.discountPercentage > 0;
+
+      if (hasDiscount && discountedPrice !== undefined) {
+        total += discountedPrice * item.quantity;
+      } else if (product) {
         total += product.price * item.quantity;
       }
       return total;
@@ -97,7 +115,7 @@ export const ShopingCartProvider = ({
   };
 
   return (
-    <ShopingCartContext.Provider
+    <ShoppingCartContext.Provider
       value={{
         getItemQuantity,
         increaseCartQuantity,
@@ -106,9 +124,10 @@ export const ShopingCartProvider = ({
         cartQuantity,
         cartItems,
         calculateTotalPrice,
+        clearCart,
       }}
     >
       {children}
-    </ShopingCartContext.Provider>
+    </ShoppingCartContext.Provider>
   );
 };

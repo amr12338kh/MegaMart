@@ -13,7 +13,7 @@ const NotFoundProducts = ({ isSearch }: { isSearch?: boolean }) => {
           <h1 className="text-lg sm:text-xl md:text-2xl max-w-[600px] mb-1 font-semibold">
             {isSearch
               ? "Oops! No results found for your search."
-              : "Oops! It looks like there aren&apos;t any products available right now."}
+              : "Oops! It looks like there aren't any products available right now."}
           </h1>
           <p className="text-sm">Please check back later or try again.</p>
         </div>

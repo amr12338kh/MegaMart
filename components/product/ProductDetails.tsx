@@ -14,29 +14,53 @@ import {
 import { Breadcrumbs } from "../pagers/Breadcrumbs";
 import { ProductProps } from "@/types";
 import { CircleAlert, Truck, RefreshCcw } from "lucide-react";
+import { getDiscountedPrice, nameFormatter } from "@/lib/helpers";
+import { Badge } from "../ui/badge";
 
 interface Props {
   product: ProductProps;
 }
 
 const ProductDetails = ({ product }: Props) => {
-  const { title, price, category, brand, rating, stock } = product;
-  const cat = category.replace("-", " ");
-  const brandName = brand?.replace(" ", "-");
+  const { title, price, category, brand, rating, stock, discountPercentage } =
+    product;
+
+  const hasDiscount = discountPercentage && discountPercentage > 0;
 
   return (
     <div className="flex w-full flex-col gap-4 md:w-1/2 mt-4">
       <div className="space-y-2">
         <h2 className="line-clamp-2 text-2xl font-bold">{title}</h2>
-        <p className="text-base text-muted-foreground">${price}</p>
+        {hasDiscount ? (
+          <div className="flex items-center gap-2">
+            <p>${getDiscountedPrice(price, discountPercentage)}</p>
+            <span className="text-sm text-gray-500 line-through">
+              ${price.toFixed(2)}
+            </span>
+            <Badge
+              variant="outline"
+              className="text-[10px] px-1.5 bg-primary/5 text-primary border-primary/20"
+            >
+              {Math.round(discountPercentage) === 0
+                ? discountPercentage.toFixed(2)
+                : Math.round(discountPercentage)}
+              % OFF
+            </Badge>
+          </div>
+        ) : (
+          <p className="text-base text-muted-foreground">${price}</p>
+        )}
         <div className="inline-block text-base text-muted-foreground capitalize">
           <Link href={`/category/${category}`} className="hover:underline">
-            {cat}
+            {nameFormatter(category)}
           </Link>
           {brand && (
             <>
               {" — "}
-              <Link href={`/brands/${brandName}`} className="hover:underline">
+              <Link
+                href={`/brands/${nameFormatter(brand, true)}`}
+                className="hover:underline"
+              >
                 {brand}
               </Link>
             </>

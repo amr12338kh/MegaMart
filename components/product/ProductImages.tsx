@@ -1,13 +1,19 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
-import { FaChevronRight, FaChevronLeft, FaImage } from "react-icons/fa6";
+import {
+  FaChevronRight,
+  FaChevronLeft,
+  FaImage,
+  FaExpand,
+} from "react-icons/fa6";
 import useEmblaCarousel from "embla-carousel-react";
 import { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ProductProps } from "@/types";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+
 interface ProductImageCarouselProps
   extends React.HTMLAttributes<HTMLDivElement> {
   product: ProductProps;
@@ -16,17 +22,24 @@ interface ProductImageCarouselProps
 
 const ProductImages = ({
   product,
-  options,
+  options = { loop: false },
   className,
   ...props
 }: ProductImageCarouselProps) => {
   const images = [...product.images];
 
-  const [emblaRef, emblaApi] = useEmblaCarousel(options);
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    ...options,
+    // Add additional default options
+    slidesToScroll: 1,
+    align: "center",
+  });
 
   const [prevBtnDisabled, setPrevBtnDisabled] = React.useState(true);
   const [nextBtnDisabled, setNextBtnDisabled] = React.useState(true);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null);
 
   const scrollPrev = React.useCallback(
     () => emblaApi && emblaApi.scrollPrev(),
@@ -65,6 +78,11 @@ const ProductImages = ({
     onSelect(emblaApi);
     emblaApi.on("reInit", onSelect);
     emblaApi.on("select", onSelect);
+
+    return () => {
+      emblaApi.off("reInit", onSelect);
+      emblaApi.off("select", onSelect);
+    };
   }, [emblaApi, onSelect]);
 
   if (images.length === 0) {
@@ -83,7 +101,7 @@ const ProductImages = ({
   return (
     <div
       aria-label="Product image carousel"
-      className={cn("flex flex-col gap-2", className)}
+      className={cn("flex flex-col gap-2 relative", className)}
       {...props}
     >
       <div ref={emblaRef} className="overflow-hidden rounded">
@@ -97,38 +115,40 @@ const ProductImages = ({
             <div
               className="relative aspect-square min-w-0 flex-[0_0_100%] pl-4"
               key={i}
+              onMouseEnter={() => setHoveredIndex(i)}
+              onMouseLeave={() => setHoveredIndex(null)}
             >
-              <Image
-                aria-label={`Slide ${i + 1} of ${images.length}`}
-                role="group"
-                key={i}
-                aria-roledescription="slide"
-                src={image}
-                alt={`Image ${i + 1}`}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover"
-                priority={i === 0 || i === 1}
-                quality={75}
-              />
+              <div className="relative w-full h-full overflow-hidden">
+                <img
+                  aria-label={`Slide ${i + 1} of ${images.length}`}
+                  role="group"
+                  aria-roledescription="slide"
+                  src={image}
+                  alt={`Image ${i + 1}`}
+                  className={`absolute inset-0 w-full h-full object-cover transition-transform duration-300 ${
+                    hoveredIndex === i ? "scale-125" : "scale-100"
+                  }`}
+                  loading={i === 0 || i === 1 ? "eager" : "lazy"}
+                />
+              </div>
             </div>
           ))}
         </div>
       </div>
       {images.length > 1 ? (
-        <div className="flex w-full items-center justify-center gap-2">
+        <div className="flex w-full items-center justify-center gap-2 mt-2">
           <Button
             variant="outline"
             size="icon"
             className="mr-0.5 aspect-square h-7 w-7 rounded sm:mr-2 sm:h-8 sm:w-8"
             disabled={prevBtnDisabled}
             onClick={scrollPrev}
+            aria-label="Previous slide"
           >
             <FaChevronLeft
               className="h-3 w-3 sm:h-4 sm:w-4"
               aria-hidden="true"
             />
-            <span className="sr-only">Previous slide</span>
           </Button>
           {images.map((image, i) => (
             <Button
@@ -137,23 +157,21 @@ const ProductImages = ({
               size="icon"
               className={cn(
                 "group relative aspect-square h-full w-full max-w-[100px] rounded-none shadow-sm hover:bg-transparent focus-visible:ring-foreground",
-                i === selectedIndex && "ring-1 ring-foreground rounded"
+                i === selectedIndex && "ring-2 ring-primary rounded"
               )}
               onClick={() => scrollTo(i)}
               onKeyDown={handleKeyDown}
+              aria-label={`Go to slide ${i + 1}`}
             >
               <div className="absolute inset-0 z-10 bg-zinc-950/20 group-hover:bg-zinc-950/4" />
-              <Image
-                src={image}
-                alt={`Image ${i + 1}`}
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                fill
-                className="rounded"
-                quality={75}
-              />
-              <span className="sr-only">
-                Slide {i + 1} of {images.length}
-              </span>
+              <div className="relative w-full h-full overflow-hidden">
+                <img
+                  src={image}
+                  alt={`Thumbnail ${i + 1}`}
+                  className="absolute inset-0 w-full h-full rounded object-cover"
+                  loading="lazy"
+                />
+              </div>
             </Button>
           ))}
           <Button
@@ -162,12 +180,12 @@ const ProductImages = ({
             className="ml-0.5 aspect-square h-7 w-7 rounded sm:ml-2 sm:h-8 sm:w-8"
             disabled={nextBtnDisabled}
             onClick={scrollNext}
+            aria-label="Next slide"
           >
             <FaChevronRight
               className="h-3 w-3 sm:h-4 sm:w-4"
               aria-hidden="true"
             />
-            <span className="sr-only">Next slide</span>
           </Button>
         </div>
       ) : null}

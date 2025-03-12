@@ -1,7 +1,23 @@
+// Import statements at the top
+import {
+  checkoutFormSchema,
+  creditCardSchema,
+  passwordFormSchema,
+  profileFormSchema,
+} from "@/lib/schema";
+import { LucideIcon } from "lucide-react";
+import React, { JSX } from "react";
+import { UseFormReturn } from "react-hook-form";
+import { IconType } from "react-icons/lib";
+import { z } from "zod";
+
+// Link & Navigation Related Interfaces
 export interface LinksProps {
-  title: string;
-  link: string;
+  name: string;
+  url: string;
   description?: string;
+  username?: string;
+  icon?: LucideIcon | IconType;
 }
 
 export interface HeaderLinksProps {
@@ -15,6 +31,15 @@ export interface FooterLinksProps {
   blank: boolean;
 }
 
+// Product Related Interfaces
+
+export interface ProductsPagesProps {
+  products: ProductProps[];
+  searchParams: FilterProps;
+  brand?: string;
+  category?: string;
+  termToUse?: string;
+}
 export interface ProductProps {
   id: number;
   title: string;
@@ -57,10 +82,27 @@ export interface ProductProps {
   images: [string, string, string, string];
 }
 
+export interface CategoryCardProps {
+  title: string;
+  link: string;
+  image: string;
+}
+
+export interface ReviewsProps {
+  reviewerName: string;
+  reviewerEmail: string;
+  comment: string;
+  date: string;
+  rating: number;
+}
+
+// Section Layout Interfaces
 export interface SectionContainerProps {
   children: React.ReactNode;
   className?: string;
   container?: boolean;
+  title?: string;
+  tagline?: string;
 }
 
 export interface SectionHeadingProps {
@@ -71,10 +113,13 @@ export interface SectionHeadingProps {
   link?: string;
   isOne?: boolean;
   filters?: boolean | JSX.Element;
+  spacing?: string;
 }
 
 export interface SectionTitleProps {
   title: string | JSX.Element;
+  className?: string;
+  as?: React.ElementType;
 }
 
 export interface SectionTaglineProps {
@@ -84,7 +129,9 @@ export interface SectionTaglineProps {
 export interface SectionLinkProps {
   link: string;
   title: string | JSX.Element;
+  icon?: React.ReactNode;
   load?: boolean;
+  className?: string;
 }
 
 export interface SectionContentProps {
@@ -95,28 +142,17 @@ export interface SectionContentProps {
 export interface SectionCardsProps {
   children: React.ReactNode;
   className?: string;
+  gap?: string;
+  marginBottom?: string;
 }
 
-export interface FilterProps {
-  limit?: number;
-  order?: "asc" | "desc";
-  skip?: number;
-}
-export interface PaginationButtonProps {
-  pageNumber: number;
-}
-
-export interface CatProductsProps {
-  productCat: string;
-  productId: number;
-}
-
+// Cart & Checkout Interfaces
 export interface CartItemProps {
   id: number;
   quantity: number;
 }
 
-export interface ShopingCartContextProps {
+export interface ShoppingCartContextProps {
   getItemQuantity: (id: number) => number;
   increaseCartQuantity: (id: number) => void;
   decreaseQuantity: (id: number) => void;
@@ -124,6 +160,7 @@ export interface ShopingCartContextProps {
   calculateTotalPrice: (products: ProductProps[]) => number;
   cartQuantity: number;
   cartItems: CartItemProps[];
+  clearCart: () => void;
 }
 
 export interface AddToCartButtonProps {
@@ -139,16 +176,71 @@ export interface AddToCartButtonProps {
   product: ProductProps;
 }
 
-export interface SectionContainerProps {
-  title?: string;
-  tagline?: string;
+export interface CreditCardItem {
+  id: string;
+  cardName: string;
+  cardNumber: string;
+  expiry: string;
+  cvv: string;
+}
+
+export interface PaymentOptionsProps {
+  form: UseFormReturn<CheckoutFormData | CreditCardFormValues | any>;
+  savedCards: CreditCardItem[];
+  defaultCardId: number;
+}
+
+// Form Related Types
+export type CheckoutFormData = z.infer<typeof checkoutFormSchema>;
+export type ProfileFormValues = z.infer<typeof profileFormSchema>;
+export type PasswordFormValues = z.infer<typeof passwordFormSchema>;
+export type CreditCardFormValues = z.infer<typeof creditCardSchema>;
+
+// UI Component Interfaces
+export interface TabsCardWrapperProps {
+  title: string;
+  tabValue: string;
+  description?: string;
+  children: React.ReactNode;
+  className?: string;
+  headerClassName?: string;
+  contentClassName?: string;
+  noBorder?: boolean;
+}
+
+export interface HelpHeroBannerProps {
+  title: string;
+  subTitle?: string;
   className?: string;
 }
 
-export interface ReviewsProps {
-  reviewerName: string;
-  reviewerEmail: string;
-  comment: string;
-  date: string;
-  rating: number;
+export interface CTAProps {
+  icon: LucideIcon | IconType;
+  title: string;
+  btnText: string;
+  secBtnText?: string;
+  secLink?: string;
+  link: string;
+  subTitle?: string;
+  className?: string;
+  blank?: boolean;
+}
+
+// Filtering & Pagination Interfaces
+export interface FilterProps {
+  limit?: number;
+  order?: "asc" | "desc";
+  skip?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  [key: string]: string | number | undefined;
+}
+
+export interface PaginationButtonProps {
+  pageNumber: number;
+}
+
+export interface CatProductsProps {
+  productCat: string;
+  productId: number;
 }

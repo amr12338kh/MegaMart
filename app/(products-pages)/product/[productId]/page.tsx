@@ -1,27 +1,74 @@
 import SingleProduct from "@/components/product/SingleProduct";
 import RecommendedProducts from "@/components/product/RecommendedProducts";
 import { singleProductData } from "@/lib/utils";
-import CatProducts from "@/components/product/CatProducts";
+import CategoryRelatedProducts from "@/components/product/CategoryRelatedProducts";
 import { notFound } from "next/navigation";
 import Reviews from "@/components/product/Reviews";
 import { Separator } from "@/components/ui/separator";
+import { Metadata } from "next";
 
 export async function generateMetadata({
   params,
 }: {
   params: { productId: string };
-}) {
+}): Promise<Metadata> {
   const { productId } = params;
   const product = await singleProductData(productId);
 
+  if (!product) {
+    return {
+      title: "Product Not Found - MegaMart",
+      description: "The requested product could not be found.",
+    };
+  }
+
+  // Truncate description if too long for meta tags
+  const metaDescription =
+    product.description.length > 160
+      ? `${product.description.substring(0, 157)}...`
+      : product.description;
+
   return {
     title: `${product.title} - MegaMart`,
-    description: product.description,
+    description: metaDescription,
+    keywords: [
+      product.title,
+      product.category,
+      "product",
+      "megamart",
+      "online shopping",
+    ],
+    openGraph: {
+      title: `${product.title} - MegaMart`,
+      description: metaDescription,
+      images: [
+        {
+          url: product.thumbnail || "/logo.png",
+          width: 800,
+          height: 600,
+          alt: product.title,
+        },
+      ],
+    },
+    alternates: {
+      canonical: `/product/${productId}`,
+    },
+    other: {
+      "product:price:amount": product.price.toString(),
+      "product:price:currency": "USD",
+      "product:availability": product.stock > 0 ? "instock" : "outofstock",
+      "product:brand": product.brand || "MegaMart",
+      "product:category": product.category,
+    },
   };
 }
 
-const page = async ({ params }: { params: { productId: string } }) => {
-  const { productId } = params;
+const productPage = async ({
+  params,
+}: {
+  params: Promise<{ productId: string }>;
+}) => {
+  const { productId } = await params;
   const product = await singleProductData(productId);
   const { category, id } = product;
 
@@ -33,7 +80,7 @@ const page = async ({ params }: { params: { productId: string } }) => {
         <SingleProduct product={product} />
       </section>
       <section>
-        <CatProducts productCat={category} productId={id} />
+        <CategoryRelatedProducts productCat={category} productId={id} />
       </section>
       <section>
         <RecommendedProducts recNumber={4} />
@@ -47,4 +94,4 @@ const page = async ({ params }: { params: { productId: string } }) => {
   );
 };
 
-export default page;
+export default productPage;

@@ -1,62 +1,51 @@
-import PaginationButton from "@/components/pagers/PaginationButton";
-import Card from "@/components/product/Card";
 import { productsData } from "@/lib/utils";
 import { FilterProps } from "@/types";
-import {
-  SectionContainer,
-  SectionHeading,
-  SectionContent,
-  SectionCards,
-} from "@/components/SectionContainer";
-import { Separator } from "@/components/ui/separator";
-import NotFoundProducts from "@/components/NotFoundProducts";
-import { getTotalProducts } from "@/lib/utils";
+import AllProductsPage from "@/components/product/AllProductsPage";
 
 export async function generateMetadata() {
   return {
-    title: `All Products - MegaMart`,
-    description: "Tech Store all products page",
+    title: "All Products - MegaMart | Shop Our Complete Collection",
+    description:
+      "Browse MegaMart's complete collection of premium electronics, fashion, home goods and more with fast shipping and excellent customer service.",
+    keywords: [
+      "products",
+      "all products",
+      "megamart collection",
+      "online shopping",
+      "electronics",
+      "fashion",
+    ],
+    openGraph: {
+      title: "All Products - MegaMart | Shop Our Complete Collection",
+      description:
+        "Explore our wide selection of quality products with competitive prices and exclusive deals.",
+      type: "website",
+      images: [
+        {
+          url: "/logo.png",
+          type: "image/png",
+          width: 800,
+          height: 600,
+          alt: "MegaMart Products Collection",
+        },
+      ],
+    },
+    alternates: {
+      canonical: "/products",
+    },
   };
 }
 
 const Products = async ({ searchParams }: { searchParams: FilterProps }) => {
-  const { limit, skip, order } = searchParams;
+  const { order = "asc" } = searchParams;
 
-  const total = await getTotalProducts();
-  const products = await productsData({
-    limit: limit || 12,
-    skip: skip || 0,
-    order: order || "asc",
+  const allProducts = await productsData({
+    limit: 1000,
+    skip: 0,
+    order,
   });
 
-  const isDataEmpty = !Array.isArray(products) || products.length === 0;
-  const pageNumber = (limit || 12) / 10;
-  const totalPages = Math.ceil(total / (limit || 12));
-
-  return (
-    <SectionContainer container>
-      <SectionHeading
-        title="Products"
-        tagline="Explore Our Wide Selection of Quality Products"
-        filters
-      />
-      <SectionContent>
-        <Separator />
-        {!isDataEmpty ? (
-          <div>
-            <SectionCards>
-              {products.map((product) => (
-                <Card key={product.id} product={product} />
-              ))}
-            </SectionCards>
-            {totalPages > 1 && <PaginationButton pageNumber={pageNumber} />}
-          </div>
-        ) : (
-          <NotFoundProducts />
-        )}
-      </SectionContent>
-    </SectionContainer>
-  );
+  return <AllProductsPage products={allProducts} searchParams={searchParams} />;
 };
 
 export default Products;

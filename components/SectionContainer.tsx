@@ -34,18 +34,16 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   link,
   isOne = false,
   filters,
+  spacing = "mb-7",
 }) => {
-  if (filters && (link || linkText))
-    throw Error(
-      "Invalid component configuration: The 'filters' and 'link'/'linkText' properties cannot be used together in SectionHeading. Please choose either to display filter and sorting dropdown or a link, but not both."
-    );
+  const showLink = !filters && linkText && link;
+  const showFilters = filters && !link && !linkText;
 
   return (
     <div
       className={cn(
-        `flex flex-col sm:flex-row sm:justify-between sm:items-center gap-y-5 sm:gap-y-0 ${
-          isOne ? "mb-4" : "mb-7"
-        }`,
+        `flex flex-col sm:flex-row sm:justify-between sm:items-center gap-y-5 sm:gap-y-0`,
+        isOne ? "mb-4" : spacing,
         className
       )}
     >
@@ -53,8 +51,9 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         <SectionTitle title={title} />
         {tagline && <SectionTagline tagline={tagline} />}
       </div>
-      {linkText && link && <SectionLink title={linkText} link={link} />}
-      {filters && (
+
+      {showLink && <SectionLink title={linkText!} link={link!} />}
+      {showFilters && (
         <div>
           <Sort /> <Filter />
         </div>
@@ -63,32 +62,51 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   );
 };
 
-const SectionTitle: React.FC<SectionTitleProps> = ({ title }) => {
+const SectionTitle: React.FC<SectionTitleProps> = ({
+  title,
+  className,
+  as: Component = "h2",
+}) => {
   return (
-    <h1 className="text-2xl sm:text-3xl font-extrabold lg:text-4xl capitalize">
+    <Component
+      className={cn(
+        "text-2xl sm:text-3xl font-extrabold lg:text-4xl capitalize",
+        className
+      )}
+    >
       {title}
-    </h1>
+    </Component>
   );
 };
 
 const SectionTagline: React.FC<SectionTaglineProps> = ({ tagline }) => {
   return (
-    <p className="text-xs sm:text-base font-normal text-muted-foreground">
+    <div className="text-xs sm:text-base font-normal text-muted-foreground">
       {tagline}
-    </p>
+    </div>
   );
 };
 
-const SectionLink: React.FC<SectionLinkProps> = ({ title, link }) => {
+const SectionLink: React.FC<SectionLinkProps> = ({
+  title,
+  link,
+  className,
+  icon = <IoIosArrowRoundForward />,
+}) => {
   return (
-    link &&
-    title && (
-      <Link href={link}>
-        <span className="flex gap-x-1 items-center text-sm sm:text-base hover:underline hover:gap-x-3 duration-150">
-          {title} <IoIosArrowRoundForward />
+    <Link href={link}>
+      <span
+        className={cn(
+          "flex gap-x-1 items-center text-sm sm:text-base hover:underline group",
+          className
+        )}
+      >
+        {title}
+        <span className="transition-transform duration-150 group-hover:translate-x-1">
+          {icon}
         </span>
-      </Link>
-    )
+      </span>
+    </Link>
   );
 };
 
@@ -104,11 +122,13 @@ export const SectionContent: React.FC<SectionContentProps> = ({
 export const SectionCards: React.FC<SectionCardsProps> = ({
   children,
   className,
+  gap = "gap-6",
+  marginBottom = "mb-4",
 }) => {
   return (
     <div
       className={cn(
-        "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-4",
+        `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${gap} ${marginBottom}`,
         className
       )}
     >

@@ -1,81 +1,118 @@
 "use client";
 
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { FaAlignLeft } from "react-icons/fa";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu } from "lucide-react";
+import Link from "next/link";
+import { ShoppingBasket } from "lucide-react";
+import { headerLinks, quickAccessLinks } from "@/data";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import Link from "next/link";
-import { ShoppingBasket } from "lucide-react";
-import { headerLinks } from "@/constants";
-import { useState } from "react";
-import SearchBar from "../SearchBar";
-import { cn } from "@/lib/utils";
+} from "../ui/accordion";
+import { Separator } from "../ui/separator";
 
 const SideNavbar = ({ className }: { className?: string }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
-    <aside className={cn(" cursor-pointer", className)}>
-      <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetTrigger asChild>
-          <FaAlignLeft size={25} />
-        </SheetTrigger>
-        <SheetContent side="left" className="w-full sm:w-[540px] items-start">
-          <SheetHeader className=" text-start">
-            <SheetTitle>
-              <Link href="/" onClick={() => setIsOpen(false)}>
-                <div className="flex w-fit space-x-2 items-center">
-                  <ShoppingBasket />
-                  <h2 className="scroll-m-20 text-xl font-semibold tracking-tight">
-                    MegaMart
-                  </h2>
-                </div>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger asChild>
+        <button
+          className={cn(
+            "p-2 rounded-md hover:bg-accent transition-colors",
+            className
+          )}
+          aria-label="Open Navigation Menu"
+        >
+          <Menu size={24} />
+        </button>
+      </SheetTrigger>
+
+      <SheetContent
+        side="left"
+        className="w-full sm:w-[400px]  flex flex-col p-4 "
+      >
+        <div className="py-4 flex items-center justify-between">
+          <Link
+            href="/"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center space-x-2 group"
+          >
+            <ShoppingBasket className="text-primary group-hover:scale-110 transition-transform" />
+            <span className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+              MegaMart
+            </span>
+          </Link>
+        </div>
+
+        <Separator />
+
+        <div className="grid grid-cols-4 gap-2 py-4">
+          {quickAccessLinks.map((link) => {
+            const Icon = link.icon;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsOpen(false)}
+                className={cn(
+                  "flex flex-col items-center justify-center p-2 rounded-lg hover:bg-accent transition-colors group",
+                  pathname === link.href && "bg-primary/10"
+                )}
+              >
+                <Icon
+                  className={cn(
+                    "w-5 h-5 text-muted-foreground group-hover:text-primary",
+                    pathname === link.href && "text-primary"
+                  )}
+                />
+                <span className="text-xs mt-1 text-muted-foreground group-hover:text-foreground">
+                  {link.title}
+                </span>
               </Link>
-            </SheetTitle>
-            <SheetDescription>
-              <div className="my-2 sm:hidden" onSubmit={() => setIsOpen(false)}>
-                <SearchBar />
-              </div>
-              {headerLinks.map(({ title, links }, i) => (
-                <Accordion type="single" collapsible key={i}>
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger className="scroll-m-20 text-base font-semibold text-primary tracking-tight">
-                      {title}
-                    </AccordionTrigger>
-                    <AccordionContent className=" text-muted-foreground">
-                      <ul className="ml-3 flex flex-col gap-3">
-                        {links.map(({ title, link }) => (
-                          <Link
-                            key={title}
-                            href={link}
-                            onClick={() => setIsOpen(false)}
-                          >
-                            <li className=" hover:text-primary text-sm font-medium leading-none">
-                              {title}
-                            </li>
-                          </Link>
-                        ))}
-                      </ul>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              ))}
-            </SheetDescription>
-          </SheetHeader>
-        </SheetContent>
-      </Sheet>
-    </aside>
+            );
+          })}
+        </div>
+
+        <Separator />
+
+        <nav className="flex-1 overflow-y-auto">
+          {headerLinks.map(({ title, links }, i) => (
+            <Accordion type="single" collapsible key={i} className="w-full">
+              <AccordionItem value={`item-${i}`}>
+                <AccordionTrigger className="scroll-m-20 text-base font-semibold text-primary tracking-tight hover:no-underline group">
+                  {title}
+                </AccordionTrigger>
+                <AccordionContent>
+                  <ul className="space-y-2 pl-4 border-l-2 border-primary/20">
+                    {links.map(({ name, url }) => (
+                      <li key={title}>
+                        <Link
+                          href={url}
+                          onClick={() => setIsOpen(false)}
+                          className={cn(
+                            "block py-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors",
+                            pathname === url && "text-primary font-semibold"
+                          )}
+                        >
+                          {name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          ))}
+        </nav>
+      </SheetContent>
+    </Sheet>
   );
 };
 

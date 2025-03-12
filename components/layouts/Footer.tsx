@@ -1,63 +1,113 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBasket } from "lucide-react";
-import { footerLinks } from "@/constants";
+import {
+  ShoppingBasket,
+  Twitter,
+  Instagram,
+  Facebook,
+  Github,
+  Linkedin,
+} from "lucide-react";
+import { footerLinks } from "@/data";
 
 const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
     <footer className="w-full border-t bg-background">
-      <div className="grid items-center gap-8 pb-8 pt-6 md:py-8 container">
-        <div className="flex flex-col gap-10 lg:flex-row lg:gap-20">
-          <Link className="flex w-[200px] flex-col justify-end" href="/">
-            <ShoppingBasket className="h-6 w-6" aria-hidden="true" />
-            <div className="mb-2 mt-4 text-lg font-medium">MegaMart</div>
-            <p className="text-sm leading-tight text-muted-foreground">
-              An E-commerce website for training built with everything new in
-              Next.js
-            </p>
-          </Link>
-          <section className="grid flex-1 grid-cols-1 gap-10 xxs:grid-cols-2 sm:grid-cols-4">
-            {footerLinks.map(({ title, links, blank }, i) => (
-              <div key={i}>
-                <h3 className=" text-base font-medium">{title}</h3>
-                <ul className="flex flex-col gap-2 mt-2">
-                  {links.map(({ title, link }, j) => (
-                    <li key={j}>
-                      <Link
-                        className="footerListClass"
-                        href={link}
-                        target={blank ? "_blank" : ""}
-                      >
-                        {title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </section>
-        </div>
-        <div className="flex flex-col justify-center items-center mt-3">
-          <p className="text-gray-400 text-sm">
-            ©{year} MegaMart, Inc, All Rights Reserved.
-          </p>
-          <p className="text-gray-400 text-sm">amrkhaled12338@gmail.com</p>
-
-          <div className=" mt-2">
-            <p className="text-gray-400 text-xs">
-              Built by{" "}
-              <Link
-                href="https://amr-portfolio-dev.vercel.app/"
-                className="text-gray-600 font-semibold "
-                target="_blank"
-              >
-                Amr Khaled.
-              </Link>
+      <div className="container py-12">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
+          <div className="md:col-span-2 space-y-6">
+            <Link className="flex items-center gap-2" href="/">
+              <ShoppingBasket
+                className="h-7 w-7 text-primary"
+                aria-hidden="true"
+              />
+              <span className="text-xl font-semibold">MegaMart</span>
+            </Link>
+            <p className="text-muted-foreground max-w-md">
+              An e-commerce destination offering premium products with
+              exceptional service. Built with cutting-edge Next.js technology
+              for the optimal shopping experience.
             </p>
           </div>
+
+          <div className="md:col-span-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+              {footerLinks.map(({ title, links, blank }, i) => (
+                <div key={i}>
+                  <h3 className="font-semibold text-base mb-4">{title}</h3>
+                  <ul className="space-y-3">
+                    {links.map(({ name, url }, j) => (
+                      <li key={j}>
+                        <Link
+                          className="text-muted-foreground hover:text-foreground transition-colors"
+                          href={url}
+                          target={blank ? "_blank" : ""}
+                        >
+                          {name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="h-px w-full bg-border my-8"></div>
+
+        {/* Bottom Section */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="text-sm text-muted-foreground order-2 md:order-1">
+            <p>©{year} MegaMart, Inc. All Rights Reserved.</p>
+          </div>
+
+          <div className="flex space-x-6 order-1 md:order-2">
+            <Link
+              href="/privacy"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/terms"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Terms of Service
+            </Link>
+            <Link
+              href="/faq"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              FAQs
+            </Link>
+          </div>
+        </div>
+
+        {/* Credit */}
+        <div className="text-center mt-6">
+          <p className="text-xs text-muted-foreground">
+            Built by{" "}
+            <Link
+              href="https://amr-portfolio-dev.vercel.app/"
+              className="text-primary hover:underline font-medium"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Amr Khaled
+            </Link>{" "}
+            •{" "}
+            <a
+              href="mailto:amrkhaled12338@gmail.com"
+              className="hover:underline"
+            >
+              amrkhaled12338@gmail.com
+            </a>
+          </p>
         </div>
       </div>
     </footer>

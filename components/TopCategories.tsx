@@ -1,33 +1,79 @@
 import Link from "next/link";
 import Image from "next/image";
 import topCategoriesData from "@/data/topCategoriesData.json";
+import { memo } from "react";
+import { CategoryCardProps } from "@/types";
+
+const CategoryCard = memo(({ title, link, image }: CategoryCardProps) => {
+  const categoryId = `category-${title.toLowerCase().replace(/\s+/g, "-")}`;
+
+  return (
+    <Link
+      href={link}
+      className="group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary rounded-xl"
+      aria-labelledby={categoryId}
+    >
+      <div
+        className="relative overflow-hidden rounded-xl bg-gradient-to-b from-primary/5 to-background shadow-sm 
+        transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl 
+        h-[300px] flex items-center justify-center"
+      >
+        <div
+          className="absolute inset-0 z-10 bg-gradient-to-b from-black/40 to-black/70 
+          transition-opacity duration-300 group-hover:opacity-80"
+          aria-hidden="true"
+        />
+
+        <div className="absolute z-20 w-full px-6 text-center">
+          <h3
+            id={categoryId}
+            className="text-white capitalize text-2xl sm:text-3xl font-bold 
+            transform transition-transform duration-300 group-hover:scale-105 
+            drop-shadow-lg"
+          >
+            {title}
+          </h3>
+        </div>
+
+        <div className="absolute inset-0 z-0 w-full h-full">
+          <Image
+            src={image}
+            alt={`${title} category`}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-110"
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          />
+        </div>
+      </div>
+    </Link>
+  );
+});
+
+CategoryCard.displayName = "CategoryCard";
 
 const TopCategories = () => {
   return (
-    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {topCategoriesData.map(({ title, link, image }) => {
-        return (
-          <Link href={link} key={title}>
-            <div className="flex items-center justify-center group relative overflow-hidden rounded-lg">
-              <h3 className=" absolute flex justify-center items-center text-white capitalize z-20 text-xl sm:text-2xl xl:text-3xl font-bold">
-                {title}
-              </h3>
-              <div className="absolute inset-0 z-10 bg-black/60 transition-colors group-hover:bg-black/70"></div>
-              <div className="group-hover:scale-110 duration-200">
-                <Image
-                  src={image}
-                  alt={title}
-                  width={1000}
-                  height={1000}
-                  className="max-h-[250px] object-cover"
-                />
-              </div>
-            </div>
-          </Link>
-        );
-      })}
+    <div className="space-y-8">
+      <div className="text-center">
+        <h2 className="inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
+          Explore Categories
+        </h2>
+        <h3 className="mt-4 text-3xl font-bold tracking-tight">
+          Shop by Category
+        </h3>
+        <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
+          Discover a wide range of products across our carefully curated
+          categories
+        </p>
+      </div>
+
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {topCategoriesData.map((category) => (
+          <CategoryCard key={category.title} {...category} />
+        ))}
+      </div>
     </div>
   );
 };
 
-export default TopCategories;
+export default memo(TopCategories);

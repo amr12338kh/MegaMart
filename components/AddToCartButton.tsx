@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "./ui/button";
-import { useShopingCart } from "@/context/ShopingCartProvider";
+import { useShoppingCart } from "@/context/ShoppingCartProvider";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "./ui/toast";
 import { FaPlus, FaMinus } from "react-icons/fa";
@@ -19,7 +19,7 @@ const AddToCartButton = ({ style, variant, product }: AddToCartButtonProps) => {
     decreaseQuantity,
     getItemQuantity,
     removeFromCart,
-  } = useShopingCart();
+  } = useShoppingCart();
 
   const handleAddToCart = () => {
     increaseCartQuantity(id);

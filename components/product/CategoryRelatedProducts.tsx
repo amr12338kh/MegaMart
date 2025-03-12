@@ -1,5 +1,5 @@
 import Card from "./Card";
-import { getCatProducts } from "@/lib/utils";
+import { getCategoryRelatedProducts } from "@/lib/utils";
 import { CatProductsProps } from "@/types";
 import {
   SectionContainer,
@@ -7,8 +7,11 @@ import {
   SectionCards,
 } from "@/components/SectionContainer";
 
-const CatProducts = async ({ productCat, productId }: CatProductsProps) => {
-  const products = await getCatProducts(productCat, { limit: 5 });
+const CategoryRelatedProducts = async ({
+  productCat,
+  productId,
+}: CatProductsProps) => {
+  const products = await getCategoryRelatedProducts(productCat, { limit: 5 });
   const filteredProducts = products
     .filter((product) => product.id !== productId)
     .slice(0, 4);
@@ -32,4 +35,4 @@ const CatProducts = async ({ productCat, productId }: CatProductsProps) => {
   );
 };
 
-export default CatProducts;
+export default CategoryRelatedProducts;

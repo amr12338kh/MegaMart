@@ -1,179 +1,161 @@
 import Link from "next/link";
+import { Github, ExternalLink, Globe, Code } from "lucide-react";
+import HelpHeroBanner from "@/components/help/HelpHeroBanner";
+import { socials, techStack } from "@/data";
+import { CTA } from "@/components/help/CTA";
 
-const page = () => {
+const AboutPage = () => {
   return (
-    <main className="flex-1">
-      <article className="grid items-center gap-8 container max-w-3xl py-8 md:py-10 lg:py-10">
-        <section className="grid gap-1">
-          <h1 className="font-bold tracking-tighter lg:leading-[1.1] text-3xl md:text-4xl">
-            About
-          </h1>
-          <p className="text-muted-foreground max-w-[750px] text-base sm:text-lg">
-            About the project and the author of the project.
-          </p>
-        </section>
-        <div
-          data-orientation="horizontal"
-          role="none"
-          className="shrink-0 bg-border h-[1px] w-full my-4"
+    <main className="flex-1 bg-gradient-to-b from-background to-muted/20">
+      <div className="container max-w-6xl py-12 md:py-16 lg:py-20">
+        <HelpHeroBanner
+          title="About"
+          subTitle="Learn about the MegaMart project and the developer behind it."
         />
-        <section className="mdx">
-          <p className="text-base leading-7 [&:not(:first-child)]:mt-5">
-            This is an e-commerce store for training built with everything new
-            in &nbsp;
-            <Link
-              href="https://nextjs.org/"
-              className="font-medium underline underline-offset-4"
-              target="_blank"
-            >
-              Next.js
-            </Link>
-            &nbsp; and I used &nbsp;
-            <Link
-              href="https://tailwindcss.com/"
-              className="font-medium underline underline-offset-4"
-              target="_blank"
-            >
-              Tailwind CSS
-            </Link>
-            &nbsp; for the style.
-          </p>
 
-          <h2 className="mt-10 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0">
-            Tech used in this project
-          </h2>
+        <div className="space-y-10">
+          <div className="grid lg:grid-cols-3 gap-10">
+            <section className="bg-card rounded-xl shadow-sm p-8 border border-border/50 lg:col-span-2">
+              <h2 className="text-2xl font-semibold mb-2">The Project</h2>
+              <p className="text-muted-foreground mb-6">
+                MegaMart is a sleek e-commerce platform showcasing my expertise
+                in web development. Built with Next.js, Tailwind CSS, and
+                Shadcn/ui, this project offers a seamless shopping experience
+                across a wide range of products. With dynamic page rendering and
+                responsive design.
+              </p>
 
-          <ul className="my-6 ml-6 list-disc">
-            <li className="mt-2">
-              <Link
-                className="font-medium underline underline-offset-4"
-                href="https://nextjs.org/"
-                target="_blank"
-              >
-                Next.js
-              </Link>
-            </li>
-            <li className="mt-2">
-              <Link
-                className="font-medium underline underline-offset-4"
-                href="https://tailwindcss.com/"
-                target="_blank"
-              >
-                Tailwind CSS
-              </Link>
-            </li>
-            <li className="mt-2">
-              <Link
-                className="font-medium underline underline-offset-4"
-                href="https://www.emailjs.com/"
-                target="_blank"
-              >
-                emailJS
-              </Link>
-            </li>
-            <li className="mt-2">
-              <Link
-                className="font-medium underline underline-offset-4"
-                href="https://ui.shadcn.com/"
-                target="_blank"
-              >
-                shadcn/ui
-              </Link>
-            </li>
-            <li className="mt-2">
-              <Link
-                className="font-medium underline underline-offset-4"
-                href="https://react-icons.github.io/react-icons/"
-                target="_blank"
-              >
-                React Icons
-              </Link>
-            </li>
-          </ul>
+              <h3 className="text-xl font-semibold mb-4 flex items-center">
+                <span className="bg-primary/10 p-2 rounded-full mr-3">
+                  <Code className="h-5 w-5 text-primary" />
+                </span>
+                Tech Stack
+              </h3>
 
-          <h2 className="mt-10 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0">
-            About the author
-          </h2>
-          <p className="text-base leading-7 [&:not(:first-child)]:mt-5">
-            Hello there! 👋 I&apos;m
-            <Link
-              href="https://github.com/amr12338kh"
-              className="font-medium underline underline-offset-4"
-              target="_blank"
-            >
-              &nbsp;&apos;Amr&apos;&nbsp;
-            </Link>
-            , a passionate Front-End Web Developer with a specialization in
-            <Link
-              href="https://nextjs.org/"
-              className="font-medium underline underline-offset-4"
-              target="_blank"
-            >
-              &nbsp;Next.js&nbsp;
-            </Link>
-            , the cutting-edge
-            <Link
-              href="https://react.dev/"
-              className="font-medium underline underline-offset-4"
-              target="_blank"
-            >
-              &nbsp;React.js&nbsp;
-            </Link>
-            framework. If you&apos;re seeking a skilled professional to
-            transform your web project into a seamless and dynamic user
-            experience, you&apos;ve come to the right place.
-          </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                {techStack.map((tech) => (
+                  <Link
+                    key={tech.name}
+                    href={tech.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-4 p-3 bg-card hover:bg-accent/30 rounded-md border border-border/50 transition-colors group"
+                  >
+                    <div className="bg-primary/10 p-2 rounded-full">
+                      <ExternalLink className="h-5 w-5 text-primary" />
+                    </div>
+                    <span className="font-medium text-sm group-hover:text-primary">
+                      {tech.name}
+                    </span>
+                  </Link>
+                ))}
+              </div>
 
-          <h2 className="mt-10 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0">
-            My Socials
-          </h2>
-          <ul className="my-6 ml-6 list-disc">
-            <li className="mt-2">
-              <Link
-                className="font-medium underline underline-offset-4"
-                href="https://www.instagram.com/amrrkhaled_9/"
-                target="_blank"
-              >
-                Instagram
-              </Link>
-            </li>
-            <li className="mt-2">
-              <Link
-                className="font-medium underline underline-offset-4"
-                href="https://github.com/amr12338kh"
-                target="_blank"
-              >
-                GitHub
-              </Link>
-            </li>
-            <li className="mt-2">
-              <Link
-                className="font-medium underline underline-offset-4"
-                href="https://www.linkedin.com/in/amr-khaled-a411bb217/"
-                target="_blank"
-              >
-                Linkedin
-              </Link>
-            </li>
-          </ul>
-          <h2 className="mt-10 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0">
-            My Website
-          </h2>
-          <ul className="my-6 ml-6 list-disc">
-            <li className="mt-2">
-              <Link
-                className="font-medium underline underline-offset-4"
-                href="https://amr-portfolio-dev.vercel.app/"
-                target="_blank"
-              >
-                amr-portfolio-dev.vercel.app
-              </Link>
-            </li>
-          </ul>
-        </section>
-      </article>
+              <div className="h-px w-full bg-border/60 my-6" />
+
+              <h3 className="text-xl font-semibold mb-4 flex items-center">
+                <span className="bg-primary/10 p-2 rounded-full mr-3">
+                  <Github className="h-5 w-5 text-primary" />
+                </span>
+                About the Author
+              </h3>
+
+              <p className="text-muted-foreground">
+                Hello there! 👋 I&apos;m{" "}
+                <Link
+                  href="https://github.com/amr12338kh"
+                  className="text-primary hover:underline underline-offset-4"
+                  target="_blank"
+                >
+                  &apos;Amr&apos;
+                </Link>
+                , a passionate Front-End Web Developer with a specialization in
+                <Link
+                  href="https://nextjs.org/"
+                  className="text-primary hover:underline underline-offset-4"
+                  target="_blank"
+                >
+                  {" "}
+                  Next.js
+                </Link>
+                , the cutting-edge
+                <Link
+                  href="https://react.dev/"
+                  className="text-primary hover:underline underline-offset-4"
+                  target="_blank"
+                >
+                  {" "}
+                  React.js
+                </Link>{" "}
+                framework. If you&apos;re seeking a skilled professional to
+                transform your web project into a seamless and dynamic user
+                experience, you&apos;ve come to the right place.
+              </p>
+            </section>
+
+            <section className="space-y-8">
+              <div className="bg-card rounded-xl shadow-sm p-6 border border-border/50">
+                <h2 className="text-2xl font-semibold mb-6 flex items-center">
+                  <span className="bg-primary/10 p-2 rounded-full mr-3">
+                    <Globe className="h-5 w-5 text-primary" />
+                  </span>
+                  My Portfolio
+                </h2>
+                <p className="text-muted-foreground mb-4">
+                  Check out my portfolio website to see more of my work and
+                  projects.
+                </p>
+                <Link
+                  href="https://amr-portfolio-dev.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 w-full"
+                >
+                  Visit Portfolio
+                </Link>
+
+                <div className="h-px w-full bg-border/60 my-6" />
+
+                <h2 className="text-xl font-semibold mb-4">Connect With Me</h2>
+                <ul className="space-y-4">
+                  {socials.map((social) => (
+                    <li
+                      key={social.name}
+                      className="flex items-center gap-4 p-3 bg-card hover:bg-accent/30 rounded-md border border-border/50 transition-colors"
+                    >
+                      <div className="bg-primary/10 p-2 rounded-full">
+                        <social.icon className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-sm">{social.name}</p>
+                        <Link
+                          href={social.url}
+                          className="text-primary hover:underline underline-offset-4 text-sm"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {social.username}
+                        </Link>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+          </div>
+
+          <CTA
+            icon={Code}
+            title="Want to Collaborate?"
+            subTitle="I'm always open to new opportunities and exciting projects."
+            btnText="Get in Touch"
+            link="https://amr-portfolio-dev.vercel.app/#contact"
+            blank
+          />
+        </div>
+      </div>
     </main>
   );
 };
 
-export default page;
+export default AboutPage;

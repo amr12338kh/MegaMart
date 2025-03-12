@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
 
 @layer base {
   :root {
@@ -26,7 +25,7 @@
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
   }
- 
+
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
@@ -50,10 +49,9 @@
   }
 }
 
- 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border scroll-smooth;
   }
   body {
     @apply bg-background text-foreground;
@@ -63,10 +61,41 @@
     -webkit-appearance: none;
     margin: 0;
   }
+
+  @keyframes bounce-slow {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+
+  .animate-bounce-slow {
+    animation: bounce-slow 5s infinite;
+  }
+
+  .bg-grid-white {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+  }
 }
 
 @layer components {
   .footerListClass {
-    @apply text-sm text-muted-foreground transition-colors hover:text-foreground
+    @apply text-sm text-muted-foreground transition-colors hover:text-foreground;
   }
+}
+
+*::-webkit-scrollbar {
+  @apply w-1.5 bg-secondary/70;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground rounded;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/80;
 }

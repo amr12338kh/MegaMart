@@ -9,7 +9,7 @@ import {
 const BestSellers = async () => {
   const products = await bestSellerProducts({
     limit: 4,
-    skip: 8,
+    skip: 0,
   });
 
   return (
@@ -21,6 +21,7 @@ const BestSellers = async () => {
         link="/products"
         isOne
       />
+
       <SectionCards>
         {products.map((product) => (
           <Card key={product.id} product={product} />

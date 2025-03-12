@@ -14,7 +14,7 @@ export default async function Home() {
         <Hero />
       </section>
 
-      <section className="py-8">
+      <section className="py-8" id="categories">
         <TopCategories />
       </section>
 
@@ -22,7 +22,7 @@ export default async function Home() {
         <BestSellers />
       </section>
 
-      <section className="py-8 flex items-center">
+      <section className="py-8">
         <SellProducts />
       </section>
 

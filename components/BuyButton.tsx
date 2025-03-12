@@ -1,6 +1,6 @@
 "use client";
 
-import { useShopingCart } from "@/context/ShopingCartProvider";
+import { useShoppingCart } from "@/context/ShoppingCartProvider";
 import { Button } from "./ui/button";
 import { ProductProps } from "@/types";
 import { useRouter } from "next/navigation";
@@ -15,7 +15,7 @@ const BuyButton = ({ product }: Props) => {
   const { id } = product;
   const [isClicked, setIsClicked] = useState(false);
   const router = useRouter();
-  const { increaseCartQuantity, getItemQuantity } = useShopingCart();
+  const { increaseCartQuantity, getItemQuantity } = useShoppingCart();
   const quantity = getItemQuantity(id);
 
   const handleBuyButton = () => {
