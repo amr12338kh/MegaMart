@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -21,6 +22,19 @@ const PaginationControls = ({
 }: PaginationControlsProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkViewport = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+
+    checkViewport();
+
+    window.addEventListener("resize", checkViewport);
+
+    return () => window.removeEventListener("resize", checkViewport);
+  }, []);
 
   const handlePageChange = (page: number) => {
     const limit = 12; // Items per page
@@ -28,30 +42,15 @@ const PaginationControls = ({
 
     const params = new URLSearchParams(searchParams);
 
-    // Update or add limit and skip parameters
     params.set("limit", `${limit}`);
     params.set("skip", `${skip}`);
 
-    // Push the updated URL with preserved filters
     router.push(`?${params.toString()}`, { scroll: false });
-  };
-
-  const getPageNumbers = () => {
-    const pages = [];
-    const rangeStart = Math.max(1, currentPage - 2);
-    const rangeEnd = Math.min(totalPages, currentPage + 2);
-
-    for (let i = rangeStart; i <= rangeEnd; i++) {
-      pages.push(i);
-    }
-
-    return pages;
   };
 
   return (
     <Pagination className="mt-10">
-      <PaginationContent>
-        {/* Previous button */}
+      <PaginationContent className="flex justify-center gap-1">
         {currentPage > 1 && (
           <PaginationItem>
             <PaginationPrevious
@@ -60,12 +59,12 @@ const PaginationControls = ({
                 e.preventDefault();
                 handlePageChange(currentPage - 1);
               }}
+              className="h-10"
             />
           </PaginationItem>
         )}
 
-        {/* First page */}
-        {currentPage > 3 && (
+        {!isMobile && currentPage > 2 && (
           <>
             <PaginationItem>
               <PaginationLink
@@ -74,43 +73,65 @@ const PaginationControls = ({
                   e.preventDefault();
                   handlePageChange(1);
                 }}
+                className="h-10 w-10 flex items-center justify-center"
               >
                 1
               </PaginationLink>
             </PaginationItem>
-
-            {currentPage > 4 && (
-              <PaginationItem>
-                <span className="px-2">...</span>
-              </PaginationItem>
-            )}
+            <PaginationItem>
+              <span className="px-1 flex items-center">...</span>
+            </PaginationItem>
           </>
         )}
 
-        {/* Page numbers */}
-        {getPageNumbers().map((page) => (
-          <PaginationItem key={page}>
+        {currentPage > 1 && (
+          <PaginationItem>
             <PaginationLink
               href="#"
               onClick={(e) => {
                 e.preventDefault();
-                handlePageChange(page);
+                handlePageChange(currentPage - 1);
               }}
-              isActive={page === currentPage}
+              className="h-10 w-10 flex items-center justify-center"
             >
-              {page}
+              {currentPage - 1}
             </PaginationLink>
           </PaginationItem>
-        ))}
+        )}
 
-        {/* Last page indicator */}
-        {currentPage < totalPages - 2 && (
+        <PaginationItem>
+          <PaginationLink
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+            isActive={true}
+            className="h-10 w-10 flex items-center justify-center"
+          >
+            {currentPage}
+          </PaginationLink>
+        </PaginationItem>
+
+        {currentPage < totalPages && (
+          <PaginationItem>
+            <PaginationLink
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(currentPage + 1);
+              }}
+              className="h-10 w-10 flex items-center justify-center"
+            >
+              {currentPage + 1}
+            </PaginationLink>
+          </PaginationItem>
+        )}
+
+        {!isMobile && currentPage < totalPages - 1 && (
           <>
-            {currentPage < totalPages - 3 && (
-              <PaginationItem>
-                <span className="px-2">...</span>
-              </PaginationItem>
-            )}
+            <PaginationItem>
+              <span className="px-1 flex items-center">...</span>
+            </PaginationItem>
             <PaginationItem>
               <PaginationLink
                 href="#"
@@ -118,6 +139,7 @@ const PaginationControls = ({
                   e.preventDefault();
                   handlePageChange(totalPages);
                 }}
+                className="h-10 w-10 flex items-center justify-center"
               >
                 {totalPages}
               </PaginationLink>
@@ -134,6 +156,7 @@ const PaginationControls = ({
                 e.preventDefault();
                 handlePageChange(currentPage + 1);
               }}
+              className="h-10"
             />
           </PaginationItem>
         )}
