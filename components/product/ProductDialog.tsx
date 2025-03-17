@@ -55,9 +55,9 @@ const ProductDialog = ({ product, defaultOpen = false }: Props) => {
           <FaEye className="text-lg" />
         </div>
       </DialogTrigger>
-      <DialogContent className="p-0 rounded-lg overflow-hidden w-11/12 sm:w-4/5 lg:w-3/4 xl:w-2/3 max-w-4xl shadow-xl">
+      <DialogContent className="p-0 rounded-lg overflow-hidden h-full sm:h-fit w-full sm:w-4/5 lg:w-3/4 xl:w-2/3 sm:max-w-4xl shadow-xl">
         <div className="flex flex-col md:flex-row">
-          <div className="w-full md:w-2/5 bg-gray-50 flex items-center">
+          <div className="w-full md:w-2/5 bg-muted overflow-hidden flex items-center">
             <AspectRatio ratio={1} className="w-full">
               <div className="relative w-full h-full group">
                 <img
@@ -67,7 +67,7 @@ const ProductDialog = ({ product, defaultOpen = false }: Props) => {
                   loading="lazy"
                 />
                 {hasDiscount && (
-                  <Badge className="absolute -top-4 left-4 bg-red-500 hover:bg-red-600">
+                  <Badge className="absolute top-4 md:-top-4 left-4 bg-red-500 hover:bg-red-600">
                     {Math.round(discountPercentage) === 0
                       ? discountPercentage.toFixed(2)
                       : Math.round(discountPercentage)}
@@ -120,7 +120,7 @@ const ProductDialog = ({ product, defaultOpen = false }: Props) => {
             </div>
 
             <div className="flex-grow">
-              <p className="text-base text-muted-foreground mb-6">
+              <p className="text-base text-muted-foreground mb-6 hidden sm:block">
                 {description}
               </p>
 
