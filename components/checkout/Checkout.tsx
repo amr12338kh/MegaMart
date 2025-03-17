@@ -5,7 +5,7 @@ import { useShoppingCart } from "@/context/ShoppingCartProvider";
 import { CheckoutFormData, ProductProps, CreditCardItem } from "@/types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, Lock, ShoppingBag, ShoppingCart } from "lucide-react";
+import { ArrowLeft, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
@@ -43,6 +43,7 @@ const Checkout = ({ products }: Props) => {
     const cards = getCards();
     return Array.isArray(cards) ? cards : [];
   });
+
   const defaultCardId =
     getDefaultCard() || (savedCards.length > 0 ? savedCards[0].id : null);
 
@@ -70,12 +71,41 @@ const Checkout = ({ products }: Props) => {
       saveInfo: false,
       paymentMethod: "creditcard",
       paymentOption: savedCards.length > 0 ? "saved" : "new",
-      savedCardId: defaultCardId || "",
+      savedCardId:
+        savedCards.length > 0 ? defaultCardId || savedCards[0].id : "",
     },
   });
 
   const onSubmit = (data: CheckoutFormData) => {
     setIsSubmitting(true);
+
+    if (
+      data.paymentMethod === "creditcard" &&
+      data.paymentOption === "new" &&
+      (!data.cardNumber || !data.expiry || !data.cvv)
+    ) {
+      toast({
+        title: "Payment Error",
+        description: "Please fill in all required card details",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (
+      data.paymentMethod === "creditcard" &&
+      data.paymentOption === "saved" &&
+      !data.savedCardId
+    ) {
+      toast({
+        title: "Payment Error",
+        description: "Please select a saved card",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
 
     if (data.paymentOption === "new" && data.saveInfo && data.cardNumber) {
       const newCard: CreditCardItem = {

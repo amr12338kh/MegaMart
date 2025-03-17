@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Label } from "../ui/label";
+import { Checkbox } from "../ui/checkbox";
 import { cn } from "@/lib/utils";
 import { CreditCard, Badge } from "lucide-react";
 import CreditCardForm from "./CreditCardForm";
@@ -15,12 +16,42 @@ const PaymentOptions = ({
   savedCards,
   defaultCardId,
 }: PaymentOptionsProps) => {
-  const paymentOption = form.watch("paymentOption");
-  const [showNewCardForm, setShowNewCardForm] = useState(false);
+  const currentPaymentOption = form.getValues("paymentOption");
+  if (!currentPaymentOption) {
+    if (savedCards.length === 0) {
+      form.setValue("paymentOption", "new", { shouldValidate: false });
+    } else {
+      form.setValue("paymentOption", "saved", { shouldValidate: false });
+      if (!form.getValues("savedCardId")) {
+        const cardToSelect = defaultCardId?.toString() || savedCards[0]?.id;
+        form.setValue("savedCardId", cardToSelect, { shouldValidate: false });
+      }
+    }
+  }
 
-  useEffect(() => {
-    setShowNewCardForm(paymentOption === "new");
-  }, [paymentOption]);
+  const paymentOption = form.watch("paymentOption");
+  const savedCardId = form.watch("savedCardId");
+  const saveInfo = form.watch("saveInfo");
+
+  const handlePaymentOptionChange = (value: string) => {
+    const newValue = value as "saved" | "new";
+    form.setValue("paymentOption", newValue, { shouldValidate: false });
+
+    if (newValue === "new") {
+      form.setValue("savedCardId", undefined, { shouldValidate: false });
+    } else if (newValue === "saved" && !savedCardId && savedCards.length > 0) {
+      const cardToSelect = defaultCardId?.toString() || savedCards[0]?.id;
+      form.setValue("savedCardId", cardToSelect, { shouldValidate: false });
+    }
+  };
+
+  const handleCardSelect = (cardId: string) => {
+    form.setValue("savedCardId", cardId, { shouldValidate: false });
+  };
+
+  const handleSaveCardChange = (checked: boolean) => {
+    form.setValue("saveInfo", checked, { shouldValidate: false });
+  };
 
   return (
     <Card className="border shadow-sm">
@@ -29,10 +60,8 @@ const PaymentOptions = ({
       </CardHeader>
       <CardContent className="px-4 pb-4">
         <RadioGroup
-          onValueChange={(value) => {
-            form.setValue("paymentOption", value as "saved" | "new");
-          }}
           value={paymentOption}
+          onValueChange={handlePaymentOptionChange}
           className="space-y-4"
         >
           {savedCards.length > 0 && (
@@ -51,11 +80,11 @@ const PaymentOptions = ({
                       key={card.id}
                       className={cn(
                         "border rounded-lg transition-all cursor-pointer",
-                        form.watch("savedCardId") === card.id
+                        savedCardId === card.id
                           ? "border-primary bg-primary/5"
                           : "border-border hover:border-muted-foreground/50"
                       )}
-                      onClick={() => form.setValue("savedCardId", card.id)}
+                      onClick={() => handleCardSelect(card.id)}
                     >
                       <div className="px-4 py-3 flex items-center justify-between">
                         <div className="flex items-center gap-3">
@@ -100,16 +129,15 @@ const PaymentOptions = ({
           {paymentOption === "new" && (
             <div className="ml-6 pt-2">
               <CreditCardForm form={form} />
-              <div className="mt-3 flex items-center">
-                <input
-                  type="checkbox"
+              <div className="mt-3 flex items-center space-x-2">
+                <Checkbox
                   id="save-card"
-                  className="mr-2"
-                  onChange={(e) => form.setValue("saveInfo", e.target.checked)}
+                  checked={saveInfo || false}
+                  onCheckedChange={handleSaveCardChange}
                 />
-                <label htmlFor="save-card" className="text-sm">
+                <Label htmlFor="save-card" className="text-sm font-normal">
                   Save this card for future purchases
-                </label>
+                </Label>
               </div>
             </div>
           )}
