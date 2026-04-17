@@ -12,7 +12,12 @@ import NotFoundProducts from "../NotFoundProducts";
 import { useProducts } from "@/hooks/use-products";
 import { ProductsPagesProps } from "@/types";
 
-const AllProductsPage = ({ products, searchParams }: ProductsPagesProps) => {
+const AllProductsPage = async ({
+  products,
+  searchParams,
+}: ProductsPagesProps) => {
+
+  
   const { paginatedProducts, currentPage, totalPages, isDataEmpty } =
     useProducts(products, searchParams);
 
