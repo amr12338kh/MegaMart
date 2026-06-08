@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { ArrowRight } from "lucide-react";
@@ -10,6 +12,17 @@ const Hero = () => {
     "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
     "https://media.istockphoto.com/id/1437816897/photo/business-woman-manager-or-human-resources-portrait-for-career-success-company-we-are-hiring.jpg?b=1&s=612x612&w=0&k=20&c=hEPh7-WEAqHTHdQtPrfEN9-yYCiPGKvD32VZ5lcL6SU=",
   ];
+
+  const scrollToCategories = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+
+    const element = document.getElementById("categories");
+
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+      window.history.pushState(null, "", "#categories");
+    }
+  };
 
   return (
     <div className="relative w-full overflow-hidden space-y-10 lg:space-y-12">
@@ -44,7 +57,11 @@ const Hero = () => {
                 <ArrowRight className="h-4 w-4 group-hover:translate-x-1 duration-200 transition-transform" />
               </Button>
             </Link>
-            <Link className="z-10" href="#categories">
+            <Link
+              className="z-10"
+              href="#categories"
+              onClick={scrollToCategories}
+            >
               <Button
                 variant="outline"
                 size="lg"
