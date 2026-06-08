@@ -23,6 +23,7 @@ const PaginationControls = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isMobile, setIsMobile] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   useEffect(() => {
     const checkViewport = () => {
@@ -36,6 +37,13 @@ const PaginationControls = ({
     return () => window.removeEventListener("resize", checkViewport);
   }, []);
 
+  useEffect(() => {
+    if (isNavigating) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setIsNavigating(false);
+    }
+  }, [searchParams, isNavigating]);
+
   const handlePageChange = (page: number) => {
     const limit = 12; // Items per page
     const skip = (page - 1) * limit;
@@ -45,6 +53,7 @@ const PaginationControls = ({
     params.set("limit", `${limit}`);
     params.set("skip", `${skip}`);
 
+    setIsNavigating(true);
     router.push(`?${params.toString()}`, { scroll: false });
   };
 
