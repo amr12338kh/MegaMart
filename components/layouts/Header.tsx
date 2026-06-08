@@ -54,7 +54,7 @@ const Header = () => {
             <NavigationMenuList>
               {headerLinks.map(({ title, links }, i) => (
                 <NavigationMenuItem key={i}>
-                  <NavigationMenuTrigger className="h-auto capitalize font-medium">
+                  <NavigationMenuTrigger className="h-auto capitalize font-medium bg-transparent">
                     {title}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
