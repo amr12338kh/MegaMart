@@ -16,10 +16,10 @@ const AllProductsPage = async ({
   products,
   searchParams,
 }: ProductsPagesProps) => {
+  const params = await searchParams;
 
-  
   const { paginatedProducts, currentPage, totalPages, isDataEmpty } =
-    useProducts(products, searchParams);
+    useProducts(products, params);
 
   return (
     <SectionContainer container>

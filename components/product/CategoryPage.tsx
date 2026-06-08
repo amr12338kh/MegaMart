@@ -12,13 +12,17 @@ import NotFoundProducts from "../NotFoundProducts";
 import { useProducts } from "@/hooks/use-products";
 import { ProductsPagesProps } from "@/types";
 
-const CategoryPage = ({
+const CategoryPage = async ({
   products,
   searchParams,
   category,
 }: ProductsPagesProps) => {
+
+  const params = await searchParams;
+
+
   const { paginatedProducts, currentPage, totalPages, isDataEmpty } =
-    useProducts(products, searchParams);
+    useProducts(products, params);
 
   return (
     <SectionContainer container>

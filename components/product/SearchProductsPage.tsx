@@ -12,13 +12,15 @@ import NotFoundProducts from "../NotFoundProducts";
 import { useProducts } from "@/hooks/use-products";
 import { ProductsPagesProps } from "@/types";
 
-const SearchProductsPage = ({
+const SearchProductsPage = async ({
   products,
   searchParams,
   termToUse,
 }: ProductsPagesProps) => {
+  const params = await searchParams;
+
   const { paginatedProducts, currentPage, totalPages, isDataEmpty } =
-    useProducts(products, searchParams);
+    useProducts(products, params);
 
   return (
     <SectionContainer container className=" min-h-[80vh]">

@@ -12,7 +12,7 @@ export async function generateMetadata({
 }: {
   params: { productId: string };
 }): Promise<Metadata> {
-  const { productId } = params;
+  const { productId } = await params;
   const product = await singleProductData(productId);
 
   if (!product) {
@@ -22,7 +22,6 @@ export async function generateMetadata({
     };
   }
 
-  // Truncate description if too long for meta tags
   const metaDescription =
     product.description.length > 160
       ? `${product.description.substring(0, 157)}...`
@@ -73,6 +72,8 @@ const productPage = async ({
   const { category, id } = product;
 
   if (!product) notFound();
+
+  console.log("Product Data:", product);
 
   return (
     <main className="container">

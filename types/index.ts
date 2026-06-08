@@ -35,7 +35,7 @@ export interface FooterLinksProps {
 
 export interface ProductsPagesProps {
   products: ProductProps[];
-  searchParams: FilterProps;
+  searchParams: Promise<FilterProps>;
   brand?: string;
   category?: string;
   termToUse?: string;

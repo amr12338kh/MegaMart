@@ -36,8 +36,12 @@ export async function generateMetadata() {
   };
 }
 
-const Products = async ({ searchParams }: { searchParams: FilterProps }) => {
-  const { order = "asc" } = searchParams;
+const Products = async ({
+  searchParams,
+}: {
+  searchParams: Promise<FilterProps>;
+}) => {
+  const { order = "asc" } = await searchParams;
 
   const allProducts = await productsData({
     limit: 1000,

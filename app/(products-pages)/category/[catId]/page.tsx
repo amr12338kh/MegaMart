@@ -8,9 +8,9 @@ import CategoryPage from "@/components/product/CategoryPage";
 export async function generateMetadata({
   params,
 }: {
-  params: { catId: string };
+  params: Promise<{ catId: string }>;
 }): Promise<Metadata> {
-  const { catId } = params;
+  const { catId } = await params;
   const categoryName = nameFormatter(catId);
   const formattedCategoryName = `${categoryName
     .charAt(0)
@@ -60,12 +60,12 @@ const SingleCategory = async ({
   params,
   searchParams,
 }: {
-  params: { catId: string };
-  searchParams: FilterProps;
+  params: Promise<{ catId: string }>;
+  searchParams: Promise<FilterProps>;
 }) => {
-  const { order = "asc" } = searchParams;
+  const { order = "asc" } = await searchParams;
 
-  const { catId } = params;
+  const { catId } = await params;
   const categoryName = nameFormatter(catId);
 
   const products = await categoriesData(catId, {

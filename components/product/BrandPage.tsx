@@ -13,9 +13,12 @@ import { useProducts } from "@/hooks/use-products";
 import { ProductsPagesProps } from "@/types";
 import { nameFormatter } from "@/lib/helpers";
 
-const BrandPage = ({ products, searchParams, brand }: ProductsPagesProps) => {
+const BrandPage = async ({ products, searchParams, brand }: ProductsPagesProps) => {
+  
+  const params = await searchParams;
+  
   const { paginatedProducts, currentPage, totalPages, isDataEmpty } =
-    useProducts(products, searchParams, {
+    useProducts(products, params, {
       brandFilter: nameFormatter(brand ?? "", true),
       brandFilterKey: "brand",
     });
@@ -25,7 +28,7 @@ const BrandPage = ({ products, searchParams, brand }: ProductsPagesProps) => {
       <SectionHeading
         title={`${nameFormatter(brand ?? "")} Products`}
         tagline={`Exclusive collection of ${nameFormatter(
-          brand ?? ""
+          brand ?? "",
         )} products available now`}
         filters
       />

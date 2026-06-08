@@ -7,9 +7,9 @@ import BrandPage from "@/components/product/BrandPage";
 export async function generateMetadata({
   params,
 }: {
-  params: { brand: string };
+  params: Promise<{ brand: string }>;
 }): Promise<Metadata> {
-  const { brand } = params;
+  const { brand } = await params;
   const CapFirstCharacter = nameFormatter(brand).slice(0, 1).toUpperCase();
   const formattedBrand = nameFormatter(brand);
 
@@ -58,11 +58,11 @@ const page = async ({
   params,
   searchParams,
 }: {
-  params: { brand: string };
-  searchParams: FilterProps;
+  params: Promise<{ brand: string }>;
+  searchParams: Promise<FilterProps>;
 }) => {
-  const { order = "asc" } = searchParams;
-  const { brand } = params;
+  const { order = "asc" } = await searchParams;
+  const { brand } = await params;
 
   const products = await getProductsBrands({
     order,

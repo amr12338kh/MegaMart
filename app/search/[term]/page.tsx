@@ -7,14 +7,15 @@ const page = async ({
   params,
   searchParams,
 }: {
-  params: { term: string };
-  searchParams: FilterProps;
+  params: Promise<{ term: string }>;
+  searchParams: Promise<FilterProps>;
 }) => {
-  if (!params.term) notFound();
+  const { term } = await params;
+  if (!term) notFound();
 
-  const termToUse = decodeURI(params.term);
+  const termToUse = decodeURI(term);
   const products = await getSearchedProducts(termToUse, {
-    order: searchParams.order || "asc",
+    order: (await searchParams).order || "asc",
   });
 
   return (

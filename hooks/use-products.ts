@@ -6,7 +6,7 @@ export const useProducts = (
   options?: {
     brandFilter?: string;
     brandFilterKey?: keyof ProductProps;
-  }
+  },
 ) => {
   const { limit = 12, skip = 0, minPrice, maxPrice } = searchParams;
 
