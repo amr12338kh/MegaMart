@@ -7,6 +7,7 @@ import Footer from "@/components/layouts/Footer";
 import { Toaster } from "@/components/ui/toaster";
 import { ShoppingCartProvider } from "@/context/ShoppingCartProvider";
 import { Analytics } from "@vercel/analytics/react";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -78,6 +79,7 @@ export default function RootLayout({
           >
             <Header />
             {children}
+            <ScrollToTop />
             <Toaster />
             <Footer />
             <Analytics />
